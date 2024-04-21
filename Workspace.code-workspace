@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../../Django/E-commerce/backend"
+		},
+		{
+			"path": "../Chat-App"
+		}
+	],
+	"settings": {}
+}
