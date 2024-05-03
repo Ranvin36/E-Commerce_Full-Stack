@@ -1,18 +1,65 @@
-import React from "react"
+import React, { useEffect, useRef, useState } from "react"
 import { IoIosArrowRoundForward } from "react-icons/io";
 import { ReactTyped } from "react-typed";
 import Product from "../Components/product";
 import Categories from "../DummyData/categories";
-import {Swiper,SwiperSlide} from "swiper/react";
-import AutoPlay from "swiper"
+import {Swiper,SwiperRef,SwiperSlide, useSwiper} from "swiper/react";
 import 'swiper/css';
-import { Selector, useSelector } from "react-redux";
+import { Selector, useDispatch, useSelector } from "react-redux";
 import { types } from "../redux/types";
+import { PiArrowSquareLeftFill , PiArrowSquareRightFill } from "react-icons/pi";
+import axios from "axios";
+import { TbShoppingBagPlus } from "react-icons/tb";
+import { HiOutlineArrowSmRight,HiOutlineArrowSmLeft } from "react-icons/hi";
+import { RiArrowDropRightLine ,RiArrowDropLeftLine} from "react-icons/ri";
+import { CiStar } from "react-icons/ci";
+import SwiperCategories from "../Components/SwiperCategories";
+
 const Home : React.FC = () =>{
-    const User = useSelector((state:types)=> state.reducer.data)
-    console.log(User)
+    const[width, setWidth] = useState(window.innerWidth)
+    const[categories, setCategories] = useState([])
+    const User = useSelector((state:types)=> state.reducer.data);
+    const dispatch = useDispatch();
+    const scrollToHeader = useRef<HTMLDivElement>(null);
+    const swiperRef = useRef<SwiperRef>(null);
+    async function GetProducts(){
+        const response = await axios.get("http://127.0.0.1:8000/api/all-products");
+    }
+
+    async function getCategories(){
+        const response = await axios.get("http://127.0.0.1:8000/api/product/categories");
+        setCategories(response.data)
+    }
+
+    function handleNextSlide(){
+        swiperRef?.current?.swiper?.slideNext()
+    }
+    function handlePrevSlide(){
+        swiperRef?.current?.swiper?.slidePrev()
+    }
+    useEffect(()=>{
+        GetProducts()  
+    },[])
+
+    useEffect(()=>{
+        getCategories()
+    },[])
+    
+    useEffect(()=>{
+        const HandleResize = () =>{
+            setWidth(window.innerWidth)
+        }
+        window.addEventListener('resize', HandleResize)
+
+        return ()=>{
+            window.removeEventListener('resize', HandleResize)
+        } 
+    },[])
+
+    console.log(categories)
     return(
-        <div className="container">            
+        <div className="container" ref={scrollToHeader}>  
+            <div className="blur" style={{top:130, right:0}}></div>          
             <header className="header">
                 <div className="header-text">
                     <h1>Evaluate Your<span> Tech Gadget </span>Game , In Your Life <span>.</span></h1>
@@ -22,6 +69,7 @@ const Home : React.FC = () =>{
                     </h3> */}
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation</p>
                     <div className="header-button">
+                    <div className="blur" style={{top:500, left:0}}></div>          
                         <div className="button-elements">
                             <a href="">Shop Now</a>
                             <IoIosArrowRoundForward color="#fff" size={25}/>
@@ -29,7 +77,7 @@ const Home : React.FC = () =>{
                     </div>
                 </div>
                 <div className="header-image">
-                    <img src="images/header.png" alt="" />
+                    <img src="images/header.png" alt="header-image" />
                 </div>
             </header>
 
@@ -39,26 +87,23 @@ const Home : React.FC = () =>{
                 </div>
                 <div className="categories-layout">
                     <Swiper
-                    loop={true}
                     spaceBetween={5}
-                    slidesPerView={4}
+                    slidesPerView={(width < 915) ? 1 :(width < 930) ? 2: (width<1150) ? 3:4}
                     autoplay={{
                         delay: 2000,
                         pauseOnMouseEnter: true,
                         disableOnInteraction: false
                        }}                    
                     >
+                                            <SlideButtons/>
+
 
                     {Categories && Categories.map(function(item,index){
                      return(
-                        <SwiperSlide key={index} className="swiper">
-                            <div className="product-categories-layout">
-                                <div className="product-image">
-                                    <img src={item.image} alt="" />
-                                </div>
-                                <h3>{item.title}</h3>
-                            </div>
+                        <SwiperSlide key={index}>
+                            <SwiperCategories item={item} index={index}/>
                         </SwiperSlide>
+
                      )
                     })}
 
@@ -71,21 +116,79 @@ const Home : React.FC = () =>{
                 </div>
                 <div className="products-section">
                     <div className="product-elements-layout">
-                        <Product/>
-                        <Product/>
-                        <Product/>
-                        <Product/>
-                        <Product/>
-                        <Product/>
-                        <Product/>
-                        <Product/>
+                        {Categories && Categories.slice(0,8).map(function(item,index){
+                            return(
+                                <React.Fragment>
+                                    <Product/>
+                                </React.Fragment>
+                            )
+                        })}
                     </div>
                 </div>
             </section>
+
+            <div className="latest trends">
+                    <div className="section-title">
+                        <h3 onClick={()=>window.scrollTo({
+                            top:scrollToHeader?.current?.offsetTop,
+                            behavior:'smooth'
+
+                        })}>New Trends</h3>
+                    </div>
+                    <div className="best-selling">
+                        <div className="categories-layout">
+                            <div className="trends-titles">
+                                    <div className="best-selling-title">
+                                        <h4>Best Selling</h4>
+                                    </div>
+                                    <div className="arrows">
+                                        <div className="trends-arrow-btns">
+                                            <button onClick={handlePrevSlide} className="arrow-bg"><RiArrowDropLeftLine size={45} className="arrow-icon" color="#fff"/></button>
+                                            <button onClick={handleNextSlide} className="arrow-bg"><RiArrowDropRightLine size={45} className="arrow-icon" color="#fff"/></button>
+                                        </div>
+                                    </div>
+                            </div>
+                        <Swiper
+                        ref={swiperRef}
+                        spaceBetween={5}
+                        slidesPerView={(width < 915) ? 1 :(width < 930) ? 2: (width<1150) ? 3:4}
+                        autoplay={{
+                            delay: 2000,
+                            pauseOnMouseEnter: true,
+                            disableOnInteraction: false
+                        }}                    
+                        >
+
+                    {Categories && Categories.map(function(item,index){
+                     return(
+                        <SwiperSlide key={index}>
+                            <React.Fragment>
+                                <Product/>
+                            </React.Fragment>
+                        </SwiperSlide>
+                     )
+                    })}
+
+                    </Swiper>
+                        </div>
+                    </div>
+
+            </div>
 
         </div>
     )
 
 }
+
+function SlideButtons(){
+    const Swiper = useSwiper()
+    return(
+        <div className="arrow-btns">
+            <button onClick={()=>Swiper.slidePrev()} className="arrow-btn"><PiArrowSquareLeftFill size={45} className="arrow-icon"/></button>
+            <button onClick={()=>Swiper.slideNext()} className="arrow-btn"><PiArrowSquareRightFill size={45} className="arrow-icon"/></button>
+        </div>
+    )
+}
+
 
 export default Home
