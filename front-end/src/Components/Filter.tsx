@@ -6,8 +6,13 @@ import { useState,useContext } from "react"
 import { SearchContext } from "../context/context"
 import { CiFilter } from "react-icons/ci";
 
+interface FilterProp{
+    type:string
+}
 
-const Filter: React.FC = () =>{
+
+const Filter: React.FC<FilterProp> = ({type}) =>{
+    console.log(type)
     const dispatch = useDispatch();
     const search = useContext(SearchContext)
     const [minprice, setMinPrice] = useState("")

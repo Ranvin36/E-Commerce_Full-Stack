@@ -1,10 +1,11 @@
 import React from "react"
+import { useNavigate } from "react-router-dom"
 import { SwiperSlide } from "swiper/react"
 
 interface SwiperItems{
-    id:number,
+    _id:number,
     image:string,
-    title:string
+    name:string
 }
 
 
@@ -15,13 +16,19 @@ interface SwiperProps{
 
 
 const SwiperCategories : React.FC<SwiperProps>= ({item,index}) =>{
+    const Navigate = useNavigate()
+    function ViewCategory(id:number){
+        Navigate(`Category/${id}`)
+    }
     return(
-        <div className="swiper-container">
+        <div className="swiper-container" onClick={()=>ViewCategory(item._id)}>
                 <div className="product-categories-layout">
                     <div className="product-image">
-                        <img src={item.image} alt="" />
+                        <img src={`http://127.0.0.1:8000${item.image}`} alt="" />
                     </div>
-                    <h3>{item.title}</h3>
+                    <div className="product-title">
+                        <h3>{item.name}</h3>
+                    </div>
                 </div>
         </div>
     )

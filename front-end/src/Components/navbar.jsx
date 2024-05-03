@@ -26,7 +26,6 @@ function Navbar(){
     const cartReducer = useSelector((state) => state.cartReducer.data)
     const favouritesReducer = useSelector((state) => state.favouritesReducer.data)
     const search = searchContext.search
-    console.log(favouritesReducer)
     const Navigation = useNavigate()
     const dispatch=useDispatch()
     async function Finding(){
@@ -43,7 +42,6 @@ function Navbar(){
     }
     
     function DeleteProduct(id){
-        console.log(id)
         dispatch(removeProductFromCart(id))
     }
 
@@ -52,7 +50,6 @@ function Navbar(){
     }
 
     function removeFromfavourites(id){
-        console.log(id)
         try{
             dispatch(removeFavouritesProduct(id))
         }

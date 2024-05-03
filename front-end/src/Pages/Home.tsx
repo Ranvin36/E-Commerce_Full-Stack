@@ -18,6 +18,7 @@ import SwiperCategories from "../Components/SwiperCategories";
 const Home : React.FC = () =>{
     const[width, setWidth] = useState(window.innerWidth)
     const[categories, setCategories] = useState([])
+    const[latestProducts, setLatestProducts] = useState([])
     const User = useSelector((state:types)=> state.reducer.data);
     const dispatch = useDispatch();
     const scrollToHeader = useRef<HTMLDivElement>(null);
@@ -29,6 +30,11 @@ const Home : React.FC = () =>{
     async function getCategories(){
         const response = await axios.get("http://127.0.0.1:8000/api/categories/");
         setCategories(response.data)
+    }
+
+    async function getLatestProducts(){
+        const response = await axios.get("http://127.0.0.1:8000/api/products/latest-products/");
+        setLatestProducts(response.data)
     }
 
     function handleNextSlide(){
@@ -44,6 +50,9 @@ const Home : React.FC = () =>{
     useEffect(()=>{
         getCategories()
     },[])
+    useEffect(()=>{
+        getLatestProducts()
+    },[])
     
     useEffect(()=>{
         const HandleResize = () =>{
@@ -56,7 +65,6 @@ const Home : React.FC = () =>{
         } 
     },[])
 
-    console.log(categories)
     return(
         <div className="container" ref={scrollToHeader}>  
             <div className="blur" style={{top:130, right:0}}></div>          
@@ -98,7 +106,7 @@ const Home : React.FC = () =>{
                                             <SlideButtons/>
 
 
-                    {Categories && Categories.map(function(item,index){
+                    {categories && categories.map(function(item,index){
                      return(
                         <SwiperSlide key={index}>
                             <SwiperCategories item={item} index={index}/>
@@ -116,10 +124,10 @@ const Home : React.FC = () =>{
                 </div>
                 <div className="products-section">
                     <div className="product-elements-layout">
-                        {Categories && Categories.slice(0,8).map(function(item,index){
+                        {latestProducts && latestProducts.map(function(item,index){
                             return(
-                                <React.Fragment>
-                                    <Product/>
+                                <React.Fragment key={index}>
+                                    <Product item={item}/>
                                 </React.Fragment>
                             )
                         })}
@@ -159,11 +167,11 @@ const Home : React.FC = () =>{
                         }}                    
                         >
 
-                    {Categories && Categories.map(function(item,index){
+                    {latestProducts && latestProducts.map(function(item,index){
                      return(
                         <SwiperSlide key={index}>
                             <React.Fragment>
-                                <Product/>
+                                <Product item={item}/> 
                             </React.Fragment>
                         </SwiperSlide>
                      )
