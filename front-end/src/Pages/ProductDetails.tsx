@@ -47,14 +47,14 @@ const ProductDetails : React.FC = () =>{
     const swiperRef = useRef<SwiperRef>(null)
     const Navigate = useNavigate()
     async function GetProductDetails(){
-        const response = await axios.get<Product>(`http://127.0.0.1:8000/api/product/${id}`)
+        const response = await axios.get<Product>(`http://127.0.0.1:8000/api/products/${id}`)
         setProduct(response.data)
         }
     
     async function SubmitPost(){
         try{
             const reviewData={comment:review,rating:rating}
-            const response = await axios.post(`http://127.0.0.1:8000/api/product/${id}/review`,reviewData,{
+            const response = await axios.post(`http://127.0.0.1:8000/api/reviews/create/${id}/`,reviewData,{
                 headers:{
                     Authorization:`Bearer ${selector.token}`
                 }
@@ -79,7 +79,7 @@ const ProductDetails : React.FC = () =>{
     }
 
     async function DeleteReview(id:number){
-        const response = await axios.delete(`http://127.0.0.1:8000/api/product/delete-review/${id}`,{
+        const response = await axios.delete(`http://127.0.0.1:8000/api/reviews/delete/${id}`,{
             headers:{
                 Authorization:`Bearer ${selector.token}`
             }
@@ -94,12 +94,12 @@ const ProductDetails : React.FC = () =>{
     }
 
     async function UpdateComment(reviewId:number){
-        const response = await axios.patch(`http://127.0.0.1:8000/api/product/update-comment/${id}`)
+        const response = await axios.patch(`http://127.0.0.1:8000/api/reviews/update/${id}`)
     }
 
     async function recommendProducts(){
         try{
-            const response = await axios.get(`http://127.0.0.1:8000/api/recommend/${product && product._id}/?query=${product && product.price}`)
+            const response = await axios.get(`http://127.0.0.1:8000/api/products/recommend/${product && product._id}/?query=${product && product.price}`)
             setRecommendatios(response.data)
         }
         catch(error){

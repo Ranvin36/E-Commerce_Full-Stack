@@ -31,7 +31,7 @@ function Navbar(){
     const dispatch=useDispatch()
     async function Finding(){
         if(search){
-            const response = await axios.get(`http://127.0.0.1:8000/api/search/?query=${search}`)
+            const response = await axios.get(`http://127.0.0.1:8000/api/products/search/?query=${search}`)
             dispatch(searchAction(response.data))
             Navigation("/search")
         }

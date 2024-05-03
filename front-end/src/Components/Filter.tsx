@@ -14,7 +14,7 @@ const Filter: React.FC = () =>{
     const [maxPrice, setMaxPrice] = useState("")
     async function HandleFilter(){
         try{
-            const response = await axios.post(`http://127.0.0.1:8000/api/search/price/?query=${search.search}&max=${maxPrice}&min=${minprice}`)
+            const response = await axios.post(`http://127.0.0.1:8000/api/products/search/price/?query=${search.search}&max=${maxPrice}&min=${minprice}`)
             dispatch(searchAction(response.data))
         }
         catch(error){

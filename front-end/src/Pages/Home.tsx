@@ -23,11 +23,11 @@ const Home : React.FC = () =>{
     const scrollToHeader = useRef<HTMLDivElement>(null);
     const swiperRef = useRef<SwiperRef>(null);
     async function GetProducts(){
-        const response = await axios.get("http://127.0.0.1:8000/api/all-products");
+        const response = await axios.get("http://127.0.0.1:8000/api/products/all-products/");
     }
 
     async function getCategories(){
-        const response = await axios.get("http://127.0.0.1:8000/api/product/categories");
+        const response = await axios.get("http://127.0.0.1:8000/api/categories/");
         setCategories(response.data)
     }
 

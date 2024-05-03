@@ -15,7 +15,7 @@ const Register : React.FC = () =>{
     async function RegisterUser(){
         if(data){
             try{
-                const response = await axios.post("http://127.0.0.1:8000/api/register",data)
+                const response = await axios.post("http://127.0.0.1:8000/api/users/register",data)
               
                 Navigate("/login")
             }
