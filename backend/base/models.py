@@ -28,10 +28,16 @@ class Product(models.Model):
     def __str__(self):
         return self.name
 
-class Cart(models.Model):
+# class Cart(models.Model):
+#     user= models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+#     product= models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
+#     def __str__(self):
+#         return self.product.name
+    
+class Cart_Product(models.Model):
     user= models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     product= models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
-
+    _id = models.AutoField(primary_key=True,editable=False)
     def __str__(self):
         return self.product.name
 
