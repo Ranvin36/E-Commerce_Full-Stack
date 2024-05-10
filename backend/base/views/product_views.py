@@ -37,12 +37,10 @@ def GetAllProducts(request):
 def RecommendProducts(request,pk):
     try:
         ExcludeProduct = Product.objects.get(_id=pk)
-        Productprice = float(ExcludeProduct.price)
-        category_id = ExcludeProduct.category._id
-        print(category_id)
-        min_price = Productprice - 200
-        max_price = Productprice + 250
-        FindProducts = Product.objects.filter(category_id=category_id,price__lte = max_price , price__gte=min_price).exclude(_id=ExcludeProduct._id)
+        Productprice = request.GET.get('query',None)
+        min_price = float(Productprice) - 200
+        max_price = float(Productprice) + 250
+        FindProducts = Product.objects.filter(price__lte = max_price , price__gte=min_price).exclude(_id=ExcludeProduct._id)
         serializer = ProductSerializer(FindProducts, many=True)
         return Response(serializer.data)
     except(Exception):

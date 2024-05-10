@@ -10,15 +10,10 @@ import SearchProduct from "./Pages/SearchProduct.tsx"
 import ProductDetails from "./Pages/ProductDetails.tsx"
 import Profile from "./Pages/Profile.tsx"
 import Category from './Pages/Category.tsx';
-import PreLoader from './Pages/PreLoader.tsx'
 
 function App() {
   return (
     <div>
-      <Routes>
-        <Route path='/preloader' element={<PreLoader/>}/>
-
-      </Routes>
       <Navbar/>
       <Routes>
         <Route path='/' element={<Home/>}/>

@@ -22,7 +22,7 @@ const Rating:React.FC<RatingProp>= ({number,setRating,rating}) =>{
         setRating(number)
     }
     return(
-        <div className={ rating==number ? "clicked-rating star-rating" :"star-rating"} onClick={Handlerating} key={number}>
+        <div className={ rating==number ? "clicked-rating star-rating" :"star-rating"} onClick={Handlerating}>
             {stars && stars.map((item,index)=>{
                 return(
                     <div >

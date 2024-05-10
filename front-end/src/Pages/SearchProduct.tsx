@@ -85,7 +85,7 @@ const SearchProduct : React.FC = () =>{
                                     <img src={`http://localhost:8000${item.image}`} alt="product-image" />
                                 </Link>
                                 <div className="product-details">
-                                    <h3>{item.name.length>=19 ? item.name.slice(0,19)+".." : item.name}</h3>
+                                    <h3>{item.name}</h3>
                                     <p>${item.price}</p>
                                 </div>
                                 <div className="product-cart">

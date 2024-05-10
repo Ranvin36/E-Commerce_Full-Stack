@@ -54,7 +54,7 @@ const ProductDetails : React.FC = () =>{
     async function SubmitPost(){
         try{
             const reviewData={comment:review,rating:rating}
-            const response = await axios.post(`http://127.0.0.1:8000/api/reviews/create/${id}`,reviewData,{
+            const response = await axios.post(`http://127.0.0.1:8000/api/reviews/create/${id}/`,reviewData,{
                 headers:{
                     Authorization:`Bearer ${selector.token}`
                 }
@@ -66,34 +66,30 @@ const ProductDetails : React.FC = () =>{
             },3000)
         }
         catch(error:any){
-            console.log(error.response);
-            // dispatch(action([]))
-            // Navigate("/login")
-            
+            switch(error.response.status){
+                case 401:
+                    console.log(error.response);
+                    dispatch(action([]))
+                    Navigate("/login")
+                default:
+                    console.log("Unkown " + error)
+            }
         }
         
     }
 
     async function DeleteReview(id:number){
-        try{
+        const response = await axios.delete(`http://127.0.0.1:8000/api/reviews/delete/${id}`,{
+            headers:{
+                Authorization:`Bearer ${selector.token}`
+            }
+        })
 
-            const response = await axios.delete(`http://127.0.0.1:8000/api/reviews/delete/${id}`,{
-                headers:{
-                    Authorization:`Bearer ${selector.token}`
-                }
-            })
-    
-            setPopupMessage("Review Deleted Succesfully")
-            setReviewPosted(true)
-            setTimeout(()=>{
-                setReviewPosted(false)
-            },3000)
-        }
-        catch(error:any){
-            console.log(error.response);
-            dispatch(action([]))
-            Navigate("/login")
-        }
+        setPopupMessage("Review Deleted Succesfully")
+        setReviewPosted(true)
+        setTimeout(()=>{
+            setReviewPosted(false)
+        },3000)
 
     }
 
