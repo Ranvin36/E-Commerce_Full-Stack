@@ -22,11 +22,18 @@ def getCategoryProducts(request,pk):
 
 @api_view(['GET'])
 def filterCategoryProducts(request,pk):
+     print("INSIDE")
      getAllProducts = Product.objects.all()
      getCategory = getAllProducts.filter(category_id = pk)
      minPrice = request.GET.get('min',None)
      maxPrice = request.GET.get('max',None)
-     FilterPrice = getCategory.filter(price__gte=minPrice , price__lte=maxPrice)
+     if(minPrice and maxPrice):
+        FilterPrice = getCategory.filter(price__gte=minPrice , price__lte=maxPrice)
+     elif(minPrice):
+        FilterPrice = getCategory.filter(price__gte=minPrice)
+     else:
+        FilterPrice = getCategory.filter(price__lte=maxPrice)
+
      serializer = ProductSerializer(FilterPrice, many=True)
      return Response(serializer.data)
           

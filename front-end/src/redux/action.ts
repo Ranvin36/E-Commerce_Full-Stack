@@ -20,6 +20,13 @@ export const cartProducts = (data:any) =>(
     payload:data
 })
 
+export const categoryFilterAction = (data:any) =>(
+    {
+    type:'CATEGORY_FILTER_SUCCESSFUL',
+    payload:data
+})
+
+
 // export const products = (data:any) =>({
 //     type:'FETCH_PRODUCTS_SUCCESS',
 //     paylaod:data

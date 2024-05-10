@@ -5,13 +5,24 @@ import Filter from "../Components/Filter"
 import Product from "../Components/product"
 import axios from "axios"
 import { useParams } from "react-router-dom"
+import { useDispatch, useSelector } from "react-redux"
+import { types } from "../redux/types"
+import { categoryFilterAction } from "../redux/action"
+
+interface Product{
+    _id:number,
+    name:string,
+    image:string,
+    price:number
+}
+
 const Category : React.FC = () =>{
     const {id} = useParams();
-    const [productCategories , setProductCategories] = useState([])
+    const dispatch = useDispatch();
     async function FetchCategories(){
         try{
             const response = await axios.get(`http://127.0.0.1:8000/api/categories/products/${id}`)
-            setProductCategories(response.data)
+            dispatch(categoryFilterAction(response.data))
         }
         catch(error:any){
             console.log(error.response.data.Message)
@@ -19,12 +30,14 @@ const Category : React.FC = () =>{
     }
     useEffect(()=>{
         FetchCategories()
-    },[setProductCategories])
+    },[])
+    const productCategories = useSelector((selector:types) => selector.categoryFilterReducer.data)
+    console.log(productCategories.category)
     return(
         <div className="categories-container">
             <div className="categories-layout">
                 <div className="results-found">
-                    <h3>200 Products Found For "Laptops"</h3>
+                    <h3>{productCategories.length} Products Found For "ABCD"</h3>
                 </div>
                 <div className="product-brand">
                     {Brands && Brands.map(function(item,index:number){
@@ -37,7 +50,7 @@ const Category : React.FC = () =>{
                 </div>
                 <Filter type="Category"/>
                 <div style={{display:"flex",flexWrap:"wrap"}}>
-                   {productCategories && productCategories.map(function(item,index){
+                   {productCategories && productCategories.map(function(item:Product,index:number){
                     return(
                         <React.Fragment>
                             <Product item={item}/>

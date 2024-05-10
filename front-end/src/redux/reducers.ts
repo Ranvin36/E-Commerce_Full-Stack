@@ -25,6 +25,15 @@ export const searchReducer = (state = initialState, action:any) =>{
             return state
     }
 }
+export const categoryFilterReducer = (state = initialState, action:any) =>{
+    switch(action.type){
+        case 'CATEGORY_FILTER_SUCCESSFUL':
+            return {...state, data:action.payload}
+
+        default :
+            return state
+    }
+}
 export const cartReducer = (state = initialState, action:any) =>{
     switch(action.type){
         case 'CART_PRODUCTS_FETCH_SUCCESSFUL':
