@@ -6,12 +6,13 @@ import { useState,useContext } from "react"
 import { SearchContext } from "../context/context"
 import { CiFilter } from "react-icons/ci";
 
-interface FilterProp{
-    type:string
-}
 
+<<<<<<< HEAD
 
 const Filter: React.FC<FilterProp> = ({type}) =>{
+=======
+const Filter: React.FC = () =>{
+>>>>>>> parent of 195ba23 (Dynamic Data +Categories Filter(Server) ))
     const dispatch = useDispatch();
     const ifCategory = type == "Category"
     const search = useContext(SearchContext)

@@ -1,7 +1,7 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view , permission_classes
 from django.contrib.auth.models import User
-from base.serializers import CategorySerializer, ProductSerializer
+from base.serializers import CategorySerializer
 from base.models import Product,Reviews,Category
 from rest_framework import status
 
@@ -9,6 +9,7 @@ from rest_framework import status
 def getCategories(request):
     get_all_categories = Category.objects.all()
     serializer = CategorySerializer(get_all_categories , many=True)
+<<<<<<< HEAD
     return Response(serializer.data)
 
 @api_view(['GET'])
@@ -37,3 +38,6 @@ def filterCategoryProducts(request,pk):
      serializer = ProductSerializer(FilterPrice, many=True)
      return Response(serializer.data)
           
+=======
+    return Response(serializer.data)
+>>>>>>> parent of 195ba23 (Dynamic Data +Categories Filter(Server) ))

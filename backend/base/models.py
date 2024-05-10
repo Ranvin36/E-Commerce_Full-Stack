@@ -20,7 +20,7 @@ class Product(models.Model):
     descripton = models.TextField(null=True, blank=True)
     noReviews = models.IntegerField(null=True,blank=True,default=0)
     inStock= models.IntegerField(null=True,blank=False)
-    price= models.DecimalField(max_digits=7, decimal_places=2, null=True, blank=True)
+    price= models.DecimalField(max_digits=7, decimal_places=2, null=False, blank=False)
     rating = models.DecimalField(max_digits=7,decimal_places=2,null=True,blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     _id = models.AutoField(primary_key=True,editable=False)

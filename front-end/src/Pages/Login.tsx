@@ -23,7 +23,11 @@ const Login : React.FC = () => {
     async function UserLogin(){
         try{
             const response = await axios.post("http://127.0.0.1:8000/api/users/login",data)
+<<<<<<< HEAD
             dispatch(action(response.data))
+=======
+            console.log(dispatch(action(response.data)))
+>>>>>>> parent of 195ba23 (Dynamic Data +Categories Filter(Server) ))
             Navigation('/')
         }
         catch{

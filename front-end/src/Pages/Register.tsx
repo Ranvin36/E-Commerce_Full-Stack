@@ -29,6 +29,7 @@ const Register : React.FC = () =>{
             }
         }
     }
+    console.log(errorMessage + "error")
     return(
         <div className="login-container">
              <div className={errorFound ? "side-popup2 popup-visible2" : "side-popup2"}>

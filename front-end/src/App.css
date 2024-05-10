@@ -385,18 +385,13 @@
   border-radius: 5px;
   text-align: center;
   padding: 20px 50px;
-  min-height: 200px;
   cursor: pointer;
-  display: flex;
-  justify-content: space-between;
-  flex-direction: column;
 }
 
 .swiper-container{
   display: flex;
   align-items: center;
   justify-content: center;
-  text-decoration: none;
 }
 
 .arrow-btns{
@@ -458,7 +453,6 @@
   margin: 10px;
   border-radius: 5px;
   transition: 0.5s;
-  cursor: pointer;
 }
 
 .product-layout:hover{
@@ -468,9 +462,7 @@
 }
 
 .product-image img{
-  object-fit: cover;
-  width: 220px;
-  height: 200px;
+  width: 200px;
 }
 
 .product-details{
@@ -491,11 +483,6 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-}
-
-.product-title h3{
-    font-weight: 300;
-    color: #000;
 }
 
 .product-cart:hover{
@@ -1110,6 +1097,7 @@ footer{
       width: 100%;
     }
 
+<<<<<<< HEAD
     .header{
       flex-direction: column;
       justify-content: center;
@@ -1148,4 +1136,6 @@ footer{
   to{
     transform: rotate(1turn);
   }
+=======
+>>>>>>> parent of 195ba23 (Dynamic Data +Categories Filter(Server) ))
 }
