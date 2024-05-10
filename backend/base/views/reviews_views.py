@@ -10,7 +10,7 @@ from rest_framework import status
 @permission_classes([IsAuthenticated])
 @api_view(['POST'])
 def CreateReview(request,pk):
-    print(pk , "INSIDE")
+    print(pk , "INSIDEs")
     data = request.data
     user = request.user
     getProduct = Product.objects.get(_id=pk)
