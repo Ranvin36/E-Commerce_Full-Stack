@@ -67,8 +67,8 @@ const ProductDetails : React.FC = () =>{
         }
         catch(error:any){
             console.log(error.response);
-            // dispatch(action([]))
-            // Navigate("/login")
+            dispatch(action([]))
+            Navigate("/login")
             
         }
         

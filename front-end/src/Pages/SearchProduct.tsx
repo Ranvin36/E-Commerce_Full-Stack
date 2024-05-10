@@ -40,7 +40,6 @@ const SearchProduct : React.FC = () =>{
     // }
 
     function AddToCart(item:Product){
-        console.log("CLICKED")
         try{
             dispatch(cartProductsfetchSuccesful([item]))
         }
@@ -59,7 +58,6 @@ const SearchProduct : React.FC = () =>{
     }
 
     function removeFromfavourites(id:number){
-        console.log(id)
         try{
             dispatch(removeFavouritesProduct(id))
         }
@@ -74,7 +72,7 @@ const SearchProduct : React.FC = () =>{
             <div className="search-title">
                 <h3>Products Found : {selector.length}</h3>
             </div>
-            <Filter/>
+            <Filter type="normal"/>
             <div className="search-products">
                 {selector && selector.map(function(item : Product,index:number){
                     const ProductUrl = `/product/${item._id}`

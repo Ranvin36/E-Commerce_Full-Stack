@@ -6,7 +6,6 @@ import { MdDeleteOutline } from "react-icons/md";
 
 const Profile : React.FC = () =>{
     const selector = useSelector((state:types)=> state.reducer.data)
-    console.log(selector.reviews)
     return(
         <div className="profile-container">
             <div className="details-activities">

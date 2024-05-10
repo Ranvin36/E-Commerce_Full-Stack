@@ -70,3 +70,9 @@ def PriceFilter(request):
 
     serializer = ProductSerializer(findproduct,  many=True)
     return Response(serializer.data)
+
+@api_view(['GET'])
+def LatestProducts(request):
+    get_latest_products = Product.objects.all().order_by('created_at')[:8]
+    serializer = ProductSerializer(get_latest_products, many=True)
+    return Response(serializer.data)
