@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { IoBagHandleOutline } from "react-icons/io5";
 import { HiOutlineBars3BottomRight } from "react-icons/hi2";
@@ -10,7 +10,7 @@ import { IoIosHeartEmpty } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import { search } from "../redux/action";
 import axios from "axios";
-import { searchAction } from "../redux/action";
+import { searchAction,action } from "../redux/action";
 import { CiShoppingCart } from "react-icons/ci";
 import { MdDeleteOutline } from "react-icons/md";
 import { SearchContext } from "../context/context";
@@ -21,10 +21,12 @@ function Navbar(){
     const[expand, setExpand] = useState(false)
     const[cartReveal, setCartReveal] = useState(false)
     const[favouritesReveal, setfavouritesReveal] = useState(false)
+    const[cartReducer, setCartReducer] = useState([])
+    const[favouritesReducer, setFavouritesReducer] = useState([])
     const selector = useSelector((state)=> state.reducer.data)
     const searchContext = useContext(SearchContext)
-    const cartReducer = useSelector((state) => state.cartReducer.data)
-    const favouritesReducer = useSelector((state) => state.favouritesReducer.data)
+    // const cartReducer = useSelector((state) => state.cartReducer.data)
+    // const favouritesReducer = useSelector((state) => state.favouritesReducer.data)
     const search = searchContext.search
     const Navigation = useNavigate()
     const dispatch=useDispatch()
@@ -41,23 +43,78 @@ function Navbar(){
         }
     }
     
-    function DeleteProduct(id){
-        dispatch(removeProductFromCart(id))
+    // function DeleteProduct(id){
+    //     dispatch(removeProductFromCart(id))
+    // }
+    async function DeleteProduct(id){
+        try{
+            const response = await axios.delete(`http://127.0.0.1:8000/api/cart/delete/${id}`,{
+                headers:{
+                    Authorization:`Bearer ${selector.token}`
+                }
+            })
+            console.log(response)
+        }   
+        catch(error){
+            console.log("Error : " + error)
+        }
     }
 
     function ProfileNavigate(){
         Navigation(`/profile/${selector._id}`)
     }
 
-    function removeFromfavourites(id){
+    async function removeFromfavourites(id){
         try{
-            dispatch(removeFavouritesProduct(id))
-        }
+            const response = await axios.delete(`http://127.0.0.1:8000/api/favourites/delete/${id}`,{
+                headers:{
+                    Authorization:`Bearer ${selector.token}`
+                }
+            })
+            console.log(response)
+        }   
         catch(error){
-
+            console.log("Error : " + error)
         }
     }
 
+    async function getProductInCart(){
+        try{
+            const response = await axios.get("http://127.0.0.1:8000/api/cart/products/",{
+                headers:{
+                    Authorization:`Bearer ${selector.token}`
+                }
+            })
+            console.log(response.data)
+            setCartReducer(response.data)
+        }
+        catch(error){
+            dispatch(action([]))
+            Navigation("/login")
+        }
+    }
+
+    async function getProductInFavourites(){
+        try{
+            const response = await axios.get("http://127.0.0.1:8000/api/favourites/products/",{
+                headers:{
+                    Authorization:`Bearer ${selector.token}`
+                }
+            })
+            console.log(response.data)
+            setFavouritesReducer(response.data)
+        }
+        catch(error){
+            dispatch(action([]))
+            Navigation("/login")
+        }
+    }
+    useEffect(()=>{
+        getProductInCart()
+    },[])
+    useEffect(()=>{
+        getProductInFavourites()
+    },[])
     return(
         <div className="navbar">
             <div className="options">
@@ -94,11 +151,11 @@ function Navbar(){
                                 return(
                                  <React.Fragment key={index}>
                                         <div className="cart-product-layout">
-                                            <img src={`http://localhost:8000${item.image}`} alt="" />
+                                            <img src={`http://localhost:8000${item.product.image}`} alt="" />
                                             <Link className="cart-product-details" to={`/product/${item._id}`}style={{textDecoration:"none"}} >
-                                                <p style={{color:"#777"}}>{item.name}</p>
+                                                <p style={{color:"#777"}}>{item.product.name}</p>
                                             </Link>
-                                            <MdDeleteOutline onClick={()=>removeFromfavourites(item._id)} size={20}/>
+                                            <MdDeleteOutline onClick={()=>removeFromfavourites(item.product._id)} size={20}/>
                                         </div>
                                 </React.Fragment>       
                                 )
@@ -120,12 +177,12 @@ function Navbar(){
                                 return(
                                  <React.Fragment key={index}>
                                         <div className="cart-product-layout">
-                                            <img src={`http://localhost:8000${item.image}`} alt="" />
+                                            <img src={`http://localhost:8000${item.product.image}`} alt="" />
                                             <div className="cart-product-details">
-                                                <p>{item.name}</p>
-                                                <p>${item.price}</p>
+                                                <p>{item.product.name}</p>
+                                                <p>${item.product.price}</p>
                                             </div>
-                                            <MdDeleteOutline onClick={()=>DeleteProduct(item._id)} size={20}/>
+                                            <MdDeleteOutline onClick={()=>DeleteProduct(item.product._id)} size={20}/>
                                         </div>
                                 </React.Fragment>       
                                 )

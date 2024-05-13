@@ -23,6 +23,7 @@ interface Product {
 
 
 const SearchProduct : React.FC = () =>{
+    const user = useSelector((state:types) =>state.reducer.data)
     const selector = useSelector((state:types)=> state.searchReducer.data)
     const dispatch = useDispatch()
     const search = useContext(SearchContext)
@@ -39,18 +40,28 @@ const SearchProduct : React.FC = () =>{
     //     }
     // }
 
-    function AddToCart(item:Product){
+    async function AddToCart(productId:number){
         try{
-            dispatch(cartProductsfetchSuccesful([item]))
+            const response = await axios.post(`http://127.0.0.1:8000/api/cart/add/${productId}`,null,{
+                headers:{
+                    Authorization:  `Bearer ${user.token}`
+                }
+            })
+            console.log(response)
         }
         catch(error){
-            console.log("ERROR " + error)
+            console.log("ERROR : " + error)
         }
     }
 
-    function AddToFavourites(item:Product){
+    async function AddToFavourites(productId:number){
         try{
-            dispatch(fetchFavouriteProducts([item]))
+            const response = await axios.post(`http://127.0.0.1:8000/api/favourites/add/${productId}`,null,{
+                headers:{
+                    Authorization:  `Bearer ${user.token}`
+                }
+            })
+            console.log(response)
         }
         catch(error){
             console.log("ERROR : " + error)
@@ -78,7 +89,7 @@ const SearchProduct : React.FC = () =>{
                     const ProductUrl = `/product/${item._id}`
                     return(
                             <div key={index} className="search-product">
-                                <div className="favourites-container" onClick={()=>AddToFavourites(item)}>
+                                <div className="favourites-container" onClick={()=>AddToFavourites(item._id)}>
                                     <IoIosHeartEmpty style={{color:"rgb(255, 91, 118)"}} size={20}/>
                                 </div>
                                 <Link className="product-img" to={ProductUrl}>
@@ -89,7 +100,7 @@ const SearchProduct : React.FC = () =>{
                                     <p>${item.price}</p>
                                 </div>
                                 <div className="product-cart">
-                                    <TbShoppingBagPlus  size={23} className="product-cart-icon" onClick={()=>AddToCart(item)}/>
+                                    <TbShoppingBagPlus  size={23} className="product-cart-icon" onClick={()=>AddToCart(item._id)}/>
                                 </div>
                             </div>
                     )
