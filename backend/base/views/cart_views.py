@@ -9,6 +9,9 @@ def addToCart(request,pk):
     try:
         user = request.user
         product = Product.objects.get(_id=pk)
+        ifExist = Cart_Product.objects.get(user=user , product=product)
+        if(ifExist):
+            return Response({"Message" : "Product Already Added To Cart"})
         createCart = Cart_Product.objects.create(
             user=user,
             product = product
@@ -28,7 +31,10 @@ def getcartproducts(request):
 @permission_classes(['IsAuthenticated'])
 @api_view(['DELETE'])
 def removeFromCart(request,pk):
-    user = request.user
-    removeProduct = Cart_Product.objects.get(product_id = pk)
-    removeProduct.delete()
-    return Response({"Message" : "Product Removed From Cart Successfully"})
+    try:
+        user = request.user
+        removeProduct = Cart_Product.objects.get(product_id = pk)
+        removeProduct.delete()
+        return Response({"Message" : "Product Removed From Cart Successfully"})
+    except(Exception):
+         return Response({'Message' : Exception})
