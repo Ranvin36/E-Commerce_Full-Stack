@@ -85,7 +85,7 @@ const ProductDetails : React.FC = () =>{
                     Authorization:`Bearer ${selector.token}`
                 }
             })
-            toast("🤙 Review Deleted Successfully")
+            toast.error("Review Deleted Successfully")
         }
         catch(error:any){
             console.log(error.response);

@@ -453,6 +453,7 @@
 }
 
 .product-layout{
+  position: relative;
   background-color: rgba(235, 235, 235, 0.536);
   padding: 30px 40px;
   margin: 10px;
@@ -782,6 +783,7 @@ footer{
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  z-index: 1;
 }
 
 /* Product-Details */

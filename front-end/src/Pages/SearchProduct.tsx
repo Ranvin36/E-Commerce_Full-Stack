@@ -17,6 +17,7 @@ import { clearFavourites} from "../redux/favouritesReducer"
 import Filter from "../Components/Filter"
 import { toast } from "react-toastify"
 import 'react-toastify/dist/ReactToastify.css';
+import Product from "../Components/product"
 
 
 interface Product {
@@ -98,26 +99,9 @@ const SearchProduct : React.FC = () =>{
                     const filterProduct = favouritesReducer.filter((productData) => productData._id === item._id)
                     const ProductUrl = `/product/${item._id}`
                     return(
-                            <div key={index} className="search-product">
-                                <div className="favourites-container" onClick={()=>AddToFavourites(item._id)}>
-                                {filterProduct.length>0 ? 
-                                    <FaHeart  size={16}  style={{color:"rgb(255, 91, 118)"}}/>
-                                    :
-                                    <IoIosHeartEmpty style={{color:"rgb(255, 91, 118)"}} size={20}/>
-                                }
-                                </div>
-                                <Link className="product-img" to={ProductUrl}>
-                                    <img src={`http://localhost:8000${item.image}`} alt="product-image" />
-                                </Link>
-                                <div className="product-details">
-                                    <h3>{item.name.length>=19 ? item.name.slice(0,19)+".." : item.name}</h3>
-                                    <p>${item.price}</p>
-                                </div>
-                                <div className="product-cart">
-                                    <TbShoppingBagPlus  size={23} className="product-cart-icon" onClick={()=>AddToCart(item._id)}/>
-                                
-                                </div>
-                            </div>
+                            <React.Fragment>
+                                <Product item={item}/>
+                            </React.Fragment>
                     )
                 })}
             </div>
