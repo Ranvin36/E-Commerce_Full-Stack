@@ -15,7 +15,8 @@ import { CiShoppingCart } from "react-icons/ci";
 import { MdDeleteOutline } from "react-icons/md";
 import { SearchContext } from "../context/context";
 import { removeProductFromCart } from "../redux/cartReducer";
-import { removeFavouritesProduct } from "../redux/favouritesReducer";
+import { removeFavouritesProduct,fetchFavouriteProducts } from "../redux/favouritesReducer";
+import { toast } from "react-toastify";
 
 function Navbar(){
     const[expand, setExpand] = useState(false)
@@ -72,6 +73,9 @@ function Navbar(){
                 }
             })
             console.log(response)
+            dispatch(removeFavouritesProduct(id))
+            toast.error("🤙 Removed From Favourites")
+
         }   
         catch(error){
             console.log("Error : " + error)
@@ -102,11 +106,13 @@ function Navbar(){
                 }
             })
             console.log(response.data)
+            dispatch(fetchFavouriteProducts(response.data))
             setFavouritesReducer(response.data)
         }
         catch(error){
-            dispatch(action([]))
-            Navigation("/login")
+            // dispatch(action([]))
+            // Navigation("/login")
+            console.log("error")
         }
     }
     useEffect(()=>{
@@ -152,7 +158,7 @@ function Navbar(){
                                  <React.Fragment key={index}>
                                         <div className="cart-product-layout">
                                             <img src={`http://localhost:8000${item.product.image}`} alt="" />
-                                            <Link className="cart-product-details" to={`/product/${item._id}`}style={{textDecoration:"none"}} >
+                                            <Link className="cart-product-details" to={`/product/${item.product._id}`}style={{textDecoration:"none"}} >
                                                 <p style={{color:"#777"}}>{item.product.name}</p>
                                             </Link>
                                             <MdDeleteOutline onClick={()=>removeFromfavourites(item.product._id)} size={20}/>

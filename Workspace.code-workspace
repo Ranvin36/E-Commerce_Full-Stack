@@ -7,7 +7,7 @@
 			"path": "../../Django/E-commerce/backend"
 		},
 		{
-			"path": "../../Git-Repos/Fleexy-Movie"
+			"path": "../Chat-Client"
 		}
 	],
 	"settings": {}

@@ -26,6 +26,6 @@ def getFavouriteProducts(request):
 @api_view(['DELETE'])
 def removeFromFavourites(request,pk):
     user = request.user
-    removeProduct = Favourite.objects.get(product_id = pk)
+    removeProduct = Favourite.objects.filter(product_id = pk)
     removeProduct.delete()
     return Response({"Message" : "Product Removed From Cart Successfully"})

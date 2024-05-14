@@ -17,6 +17,8 @@ import {cartProductsfetchSuccesful} from "../redux/cartReducer"
 import {TbShoppingBagPlus} from 'react-icons/tb'
 import { HiOutlineArrowSmRight,HiOutlineArrowSmLeft } from "react-icons/hi";
 import { RiArrowDropRightLine ,RiArrowDropLeftLine} from "react-icons/ri";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 interface Reviews{
     _id:number,
@@ -59,11 +61,12 @@ const ProductDetails : React.FC = () =>{
                     Authorization:`Bearer ${selector.token}`
                 }
             })
-            setPopupMessage("Review Posted Succesfully")
-            setReviewPosted(true)
-            setTimeout(()=>{
-                setReviewPosted(false)
-            },3000)
+            toast("🤙 Review Posted Successfully")
+            // setPopupMessage("Review Posted Succesfully")
+            // setReviewPosted(true)
+            // setTimeout(()=>{
+            //     setReviewPosted(false)
+            // },3000)
         }
         catch(error:any){
             console.log(error.response);
@@ -82,12 +85,7 @@ const ProductDetails : React.FC = () =>{
                     Authorization:`Bearer ${selector.token}`
                 }
             })
-    
-            setPopupMessage("Review Deleted Succesfully")
-            setReviewPosted(true)
-            setTimeout(()=>{
-                setReviewPosted(false)
-            },3000)
+            toast("🤙 Review Deleted Successfully")
         }
         catch(error:any){
             console.log(error.response);

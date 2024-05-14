@@ -9,9 +9,9 @@ def addToCart(request,pk):
     try:
         user = request.user
         product = Product.objects.get(_id=pk)
-        ifExist = Cart_Product.objects.get(user=user , product=product)
-        if(ifExist):
-            return Response({"Message" : "Product Already Added To Cart"})
+        # ifExist = Cart_Product.objects.get(user_id=user.id , product_id=product.id)
+        # if(ifExist):
+        #     return Response({"Message" : "Product Already Added To Cart"})
         createCart = Cart_Product.objects.create(
             user=user,
             product = product

@@ -1,11 +1,13 @@
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view,permission_classes
+from rest_framework.views import APIView
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 from base.serializers import UserSerializer , UserSerializerWithToken 
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework import status
+from rest_framework_simplejwt.tokens import RefreshToken
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     def validate(self,attrs):
         data = super().validate(attrs)
@@ -30,3 +32,11 @@ def Register(request):
         return Response(serializer.data)
     except:
         return Response({"Message" : "Username Already Exists"} , status=status.HTTP_409_CONFLICT)
+
+
+class LogOutUser(APIView):
+    def post(self,request):
+        print(request.data["refresh_token"])
+        refresh_token = request.data["refresh_token"]
+        token = RefreshToken(refresh_token)
+        token.blacklist()

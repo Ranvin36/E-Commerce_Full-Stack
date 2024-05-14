@@ -1,10 +1,11 @@
-import React, { useContext, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import { types } from "../redux/types"
 import {TbShoppingBagPlus} from 'react-icons/tb'
 import { Link } from "react-router-dom"
 import axios from "axios"
 import { searchAction } from "../redux/action"
+import {FaHeart } from "react-icons/fa"
 import { CiFilter } from "react-icons/ci";
 import { cartProducts } from "../redux/action"
 import {cartProductsfetchSuccesful} from "../redux/cartReducer"
@@ -12,7 +13,11 @@ import { SearchContext } from "../context/context"
 import { IoIosHeartEmpty } from "react-icons/io";
 import { fetchFavouriteProducts} from "../redux/favouritesReducer"
 import { removeFavouritesProduct} from "../redux/favouritesReducer"
+import { clearFavourites} from "../redux/favouritesReducer"
 import Filter from "../Components/Filter"
+import { toast } from "react-toastify"
+import 'react-toastify/dist/ReactToastify.css';
+
 
 interface Product {
     _id:number,
@@ -25,6 +30,7 @@ interface Product {
 const SearchProduct : React.FC = () =>{
     const user = useSelector((state:types) =>state.reducer.data)
     const selector = useSelector((state:types)=> state.searchReducer.data)
+    const favouritesReducer = useSelector((state:types) => state.favouritesReducer.data)
     const dispatch = useDispatch()
     const search = useContext(SearchContext)
     // const [minprice, setMinPrice] = useState("")
@@ -48,6 +54,8 @@ const SearchProduct : React.FC = () =>{
                 }
             })
             console.log(response)
+            toast.success("🤙 Added To Cart")
+
         }
         catch(error){
             console.log("ERROR : " + error)
@@ -62,6 +70,7 @@ const SearchProduct : React.FC = () =>{
                 }
             })
             console.log(response)
+            toast.success("🤙 Added To Favourites")
         }
         catch(error){
             console.log("ERROR : " + error)
@@ -86,11 +95,16 @@ const SearchProduct : React.FC = () =>{
             <Filter type="normal"/>
             <div className="search-products">
                 {selector && selector.map(function(item : Product,index:number){
+                    const filterProduct = favouritesReducer.filter((productData) => productData._id === item._id)
                     const ProductUrl = `/product/${item._id}`
                     return(
                             <div key={index} className="search-product">
                                 <div className="favourites-container" onClick={()=>AddToFavourites(item._id)}>
+                                {filterProduct.length>0 ? 
+                                    <FaHeart  size={15}  style={{color:"rgb(255, 91, 118)"}}/>
+                                    :
                                     <IoIosHeartEmpty style={{color:"rgb(255, 91, 118)"}} size={20}/>
+                                }
                                 </div>
                                 <Link className="product-img" to={ProductUrl}>
                                     <img src={`http://localhost:8000${item.image}`} alt="product-image" />
@@ -101,6 +115,7 @@ const SearchProduct : React.FC = () =>{
                                 </div>
                                 <div className="product-cart">
                                     <TbShoppingBagPlus  size={23} className="product-cart-icon" onClick={()=>AddToCart(item._id)}/>
+                                
                                 </div>
                             </div>
                     )

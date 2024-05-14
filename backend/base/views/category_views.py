@@ -22,7 +22,6 @@ def getCategoryProducts(request,pk):
 
 @api_view(['GET'])
 def filterCategoryProducts(request,pk):
-     print("INSIDE")
      getAllProducts = Product.objects.all()
      getCategory = getAllProducts.filter(category_id = pk)
      minPrice = request.GET.get('min',None)

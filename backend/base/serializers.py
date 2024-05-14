@@ -22,7 +22,7 @@ class UserSerializerWithToken(UserSerializer):
         return str(token.access_token)
 
 class ProductSerializer(serializers.ModelSerializer):
-    reviews= serializers.SerializerMethodField(read_only=False)
+    reviews= serializers.SerializerMethodField(read_only=True)
     class Meta:
         model = Product
         fields='__all__'
