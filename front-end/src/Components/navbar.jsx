@@ -48,13 +48,14 @@ function Navbar(){
     //     dispatch(removeProductFromCart(id))
     // }
     async function DeleteProduct(id){
+        dispatch(removeProductFromCart(id))
         try{
             const response = await axios.delete(`http://127.0.0.1:8000/api/cart/delete/${id}`,{
                 headers:{
                     Authorization:`Bearer ${selector.token}`
                 }
             })
-            console.log(response)
+            toast.error("Product Deleted From Cart")
         }   
         catch(error){
             console.log("Error : " + error)

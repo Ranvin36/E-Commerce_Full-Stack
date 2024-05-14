@@ -9,6 +9,8 @@ import {FaHeart } from "react-icons/fa"
 import axios from "axios";
 import { toast } from "react-toastify";
 import { removeFavouritesProduct } from "../redux/favouritesReducer";
+import { cartProductsfetchSuccesful } from "../redux/cartReducer";
+import { clearCart } from "../redux/cartReducer";
 interface ProductItem {
     _id:number,
     name:string,
@@ -20,11 +22,17 @@ interface Productprops{
     item:ProductItem
 }
 
+interface CartItem{
+    _id:number
+    product:ProductItem
+}
+
 const Product : React.FC<Productprops>= ({item}) =>{
     const navigate = useNavigate() 
     const dispatch = useDispatch()
     const user = useSelector((state:types) => state.reducer.data)
     const favouritesReducer = useSelector((state:types) => state.favouritesReducer.data)
+    const cartReducer = useSelector((state: types) => state.cartReducer.data as CartItem[]);
     async function AddToCart(productId:number){
         try{
             const response = await axios.post(`http://127.0.0.1:8000/api/cart/add/${productId}`,null,{
@@ -32,9 +40,9 @@ const Product : React.FC<Productprops>= ({item}) =>{
                     Authorization:  `Bearer ${user.token}`
                 }
             })
+            dispatch(cartProductsfetchSuccesful([response.data]))
             console.log(response)
             toast.success("🤙 Added To Cart")
-
         }
         catch(error){
             console.log("ERROR : " + error)
@@ -68,8 +76,9 @@ const Product : React.FC<Productprops>= ({item}) =>{
     function ViewProduct(id:number){
         navigate(`/product/${id}`)
     }
-    console.log(favouritesReducer)
-    const filterProduct = favouritesReducer.filter((productData) => productData.product._id === item._id)
+    const filterProduct = favouritesReducer.filter((favourite) => favourite.product._id === item._id);
+    const cartFilter = cartReducer.filter((cart)=> cart.product._id === item._id);
+    console.log(cartReducer , " : CART")
     return(
         <div className="product-layout">
              <div className="favourites-container" onClick={()=> filterProduct.length>0  ? removeFromfavourites(item._id) : AddToFavourites(item._id)}>
@@ -94,8 +103,8 @@ const Product : React.FC<Productprops>= ({item}) =>{
                         <p>${item.price}</p>
                     </div>
             </div>
-            <div className="product-cart" onClick={()=>AddToCart(item._id)}>
-                <TbShoppingBagPlus  size={23} className="product-cart-icon"/>
+            <div className="product-cart" onClick={()=>AddToCart(item._id)} style={{backgroundColor:cartFilter.length>0?"#fff":"#FF5B76"}}>
+                <TbShoppingBagPlus  size={23} className="product-cart-icon" color={cartFilter.length>0 ? "#FF5B76" :"#fff"} />
             </div>
         </div>
     )

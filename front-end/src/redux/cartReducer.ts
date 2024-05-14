@@ -16,15 +16,17 @@ const cartSlice = createSlice({
             state.data = [...state.data, ...action.payload]
         },
         removeProductFromCart: (state, action:PayloadAction<number>)=>{
-            const productId = action.payload
-
-            state.data = state.data.filter((state) => state._id !== productId)
-            console.log("REMOVED")
+            const ProductId = action.payload
+            state.data = state.data.filter((state) => state._id !== ProductId   )
+        },
+        clearCart : (state) =>{
+            state.data=[]
         }
     }
 })
 
 export const {cartProductsfetchSuccesful} = cartSlice.actions
 export const {removeProductFromCart} = cartSlice.actions
+export const {clearCart} = cartSlice.actions
 
 export default cartSlice.reducer

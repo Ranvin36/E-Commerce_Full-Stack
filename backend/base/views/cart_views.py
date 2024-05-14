@@ -18,7 +18,8 @@ def addToCart(request,pk):
             user=user,
             product = product
         )
-        return Response({"Message" : "Product Added To Cart Successsfully"})
+        serializer = CartSerializer(createCart, many=False)
+        return Response(serializer.data)
     except(Exception):
         return Response({"Message": Exception})
 
