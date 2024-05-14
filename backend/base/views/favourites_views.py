@@ -2,12 +2,14 @@ from rest_framework.decorators import permission_classes,api_view
 from rest_framework.response import Response
 from base.models import Favourite , Product 
 from base.serializers import FavouritesSertializer
-
+from rest_framework import status
 @permission_classes(['IsAuthenticated'])
 @api_view(['POST'])
 def addTofavourites(request,pk):
     user = request.user
     product = Product.objects.get(_id=pk)
+    if(Favourite.objects.filter(user_id=user.id, product_id=product._id)):
+        return Response({"Message ":"Already Added In Favourites"}, status=status.HTTP_403_FORBIDDEN)
     createFavourite = Favourite.objects.create(
         user=user,
         product=product

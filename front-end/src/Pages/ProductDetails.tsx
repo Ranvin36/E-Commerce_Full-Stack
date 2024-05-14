@@ -39,7 +39,7 @@ interface Product{
 const ProductDetails : React.FC = () =>{
     const {id} = useParams()
     const dispatch = useDispatch()
-    const selector = useSelector((state:types)=> state.reducer.data)
+    const user = useSelector((state:types)=> state.reducer.data)
     const [product,setProduct] = useState<Product | null>(null);
     const [review,setReview] = useState("");
     const [recommendation,setRecommendatios] = useState([]);
@@ -58,7 +58,7 @@ const ProductDetails : React.FC = () =>{
             const reviewData={comment:review,rating:rating}
             const response = await axios.post(`http://127.0.0.1:8000/api/reviews/create/${id}`,reviewData,{
                 headers:{
-                    Authorization:`Bearer ${selector.token}`
+                    Authorization:`Bearer ${user.token}`
                 }
             })
             toast("🤙 Review Posted Successfully")
@@ -82,7 +82,7 @@ const ProductDetails : React.FC = () =>{
 
             const response = await axios.delete(`http://127.0.0.1:8000/api/reviews/delete/${id}`,{
                 headers:{
-                    Authorization:`Bearer ${selector.token}`
+                    Authorization:`Bearer ${user.token}`
                 }
             })
             toast.error("Review Deleted Successfully")
@@ -109,12 +109,28 @@ const ProductDetails : React.FC = () =>{
         }
     }
 
-    function AddToCart(item:Product){
+    // function AddToCart(item:Product){
+    //     try{
+    //         dispatch(cartProductsfetchSuccesful([item]))
+    //     }
+    //     catch(error){
+    //         console.log("ERROR " + error)
+    //     }
+    // }
+    async function AddToCart(productId:number){
         try{
-            dispatch(cartProductsfetchSuccesful([item]))
+            const response = await axios.post(`http://127.0.0.1:8000/api/cart/add/${productId}`,null,{
+                headers:{
+                    Authorization:  `Bearer ${user.token}`
+                }
+            })
+            console.log(response)
+            toast.success("🤙 Added To Cart")
+
         }
         catch(error){
-            console.log("ERROR " + error)
+            console.log("ERROR : " + error)
+            toast.error("Product Already Added To Cart")
         }
     }
 
@@ -156,7 +172,7 @@ const ProductDetails : React.FC = () =>{
                             <h3>{product.name}</h3>
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
                             <h2>${product.price}</h2>
-                            <div className="add-to-cart">
+                            <div className="add-to-cart" onClick={()=>AddToCart(product._id)}>
                                 <p>Add To Cart</p>
                             </div>
                         </div>
@@ -186,7 +202,7 @@ const ProductDetails : React.FC = () =>{
                         </div>
                         
                         {product.reviews ? product.reviews.map(function(item,index:number){
-                            const userReview = item.user == selector._id
+                            const userReview = item.user == user._id
                             return(
                                 <div className="review-details" key={index}>
                                 <div className="user-img">
@@ -247,7 +263,7 @@ const ProductDetails : React.FC = () =>{
                                                             <p>${item.price}</p>
                                                         </div>
                                                         <div className="product-cart">
-                                                            <TbShoppingBagPlus  size={23} className="product-cart-icon" onClick={()=>AddToCart(item)}/>
+                                                            <TbShoppingBagPlus  size={23} className="product-cart-icon" onClick={()=>AddToCart(item._id)}/>
                                                         </div>
                                                     </div>
                                                 </SwiperSlide>

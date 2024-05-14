@@ -3,20 +3,22 @@ from rest_framework.response import Response
 from django.contrib.auth.models import User
 from base.models import Cart_Product,Product
 from base.serializers import CartSerializer
+from rest_framework import status
+
+
 @permission_classes(['IsAuthenticated'])
 @api_view(['POST'])  
 def addToCart(request,pk):
     try:
         user = request.user
         product = Product.objects.get(_id=pk)
-        # ifExist = Cart_Product.objects.get(user_id=user.id , product_id=product.id)
-        # if(ifExist):
-        #     return Response({"Message" : "Product Already Added To Cart"})
+        if(Cart_Product.objects.filter(user_id=user.id , product_id=product._id)):
+            return Response({"Message" : "Product Already Added To Cart"}, status=status.HTTP_403_FORBIDDEN)
         createCart = Cart_Product.objects.create(
             user=user,
             product = product
         )
-        return Response("Product Added To Cart Successsfully")
+        return Response({"Message" : "Product Added To Cart Successsfully"})
     except(Exception):
         return Response({"Message": Exception})
 

@@ -57,6 +57,7 @@ const Product : React.FC<Productprops>= ({item}) =>{
     }
 
     function removeFromfavourites(id:number){
+        console.log("INside")
         try{
             dispatch(removeFavouritesProduct(id))
         }
@@ -67,10 +68,11 @@ const Product : React.FC<Productprops>= ({item}) =>{
     function ViewProduct(id:number){
         navigate(`/product/${id}`)
     }
-    const filterProduct = favouritesReducer.filter((productData) => productData._id === item._id)
+    console.log(favouritesReducer)
+    const filterProduct = favouritesReducer.filter((productData) => productData.product._id === item._id)
     return(
         <div className="product-layout">
-             <div className="favourites-container" onClick={()=>AddToFavourites(item._id)}>
+             <div className="favourites-container" onClick={()=> filterProduct.length>0  ? removeFromfavourites(item._id) : AddToFavourites(item._id)}>
                 {filterProduct.length>0 ? 
                     <FaHeart  size={16}  style={{color:"rgb(255, 91, 118)"}}/>
                     :
