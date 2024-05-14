@@ -101,7 +101,7 @@ const SearchProduct : React.FC = () =>{
                             <div key={index} className="search-product">
                                 <div className="favourites-container" onClick={()=>AddToFavourites(item._id)}>
                                 {filterProduct.length>0 ? 
-                                    <FaHeart  size={15}  style={{color:"rgb(255, 91, 118)"}}/>
+                                    <FaHeart  size={16}  style={{color:"rgb(255, 91, 118)"}}/>
                                     :
                                     <IoIosHeartEmpty style={{color:"rgb(255, 91, 118)"}} size={20}/>
                                 }
