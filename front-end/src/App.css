@@ -722,7 +722,7 @@ footer{
   object-fit: cover;
 }
 
-.filter{
+.filter-numbers{
   display: flex;
   align-items: center;
 }
@@ -775,6 +775,14 @@ footer{
   display: flex;
   align-items: center;
   margin-right: 5px;
+  background-color: #e9e1e1;
+  padding: 10px 15px;
+  border-radius: 5px;
+}
+
+.filter-categories{
+  display: flex;
+  align-items: center;
 }
 
 .favourites-container{

@@ -52,11 +52,15 @@ def RecommendProducts(request,pk):
 
 @api_view(['POST'])
 def PriceFilter(request):
-    maxQuery = request.GET.get('max',99999)
-    minQuery=request.GET.get('min',0)
+    maxQuery = request.GET.get('max',None)
+    minQuery=request.GET.get('min',None)
     productQuery = request.GET.get('query','')
-    categoryQuery = request.GET.get('category','')
-    if(maxQuery and minQuery):
+    categoryQuery = request.GET.get('category',None)
+    if(maxQuery and minQuery and len(categoryQuery) > 4):
+        maxPrice = float(maxQuery)
+        minPrice = float(minQuery)
+        findproduct = Product.objects.filter(category__name=categoryQuery,name__icontains=productQuery , price__lte=maxPrice , price__gte=minPrice)
+    elif(maxQuery and minQuery):
         maxPrice = float(maxQuery)
         minPrice = float(minQuery)
         findproduct = Product.objects.filter(name__icontains=productQuery , price__lte=maxPrice , price__gte=minPrice)
