@@ -17,6 +17,7 @@ const Filter: React.FC<FilterProp> = ({type}) =>{
     const search = useContext(SearchContext)
     const [minprice, setMinPrice] = useState("")
     const [maxPrice, setMaxPrice] = useState("")
+    const [checked, setChecked] = useState({value:false , category:"null"})
     async function HandleFilter(){
         try{
             if(ifCategory){
@@ -33,8 +34,18 @@ const Filter: React.FC<FilterProp> = ({type}) =>{
             console.log("Error : "+ error)
         }
     }
+    function HandleCheckBox(category:string){
+        setChecked((prev)=> ({...prev, value:!prev.value , category}))
+
+    }
+
+    console.log(checked)
     return(
         <div className="filter">
+                <div className="filter-check">
+                    <input type="checkbox" name="" id="" checked={checked.value} onChange={()=>HandleCheckBox("Laptop")}/>
+                    <p>Laptops</p>
+                </div>
                 <div className="filter-input">
                     <input type="number" placeholder="Min" onChange={(e)=> setMinPrice(e.target.value)} />
                 </div>

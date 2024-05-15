@@ -40,6 +40,7 @@ const ProductDetails : React.FC = () =>{
     const {id} = useParams()
     const dispatch = useDispatch()
     const user = useSelector((state:types)=> state.reducer.data)
+    const [width,setWidth] =useState(window.innerWidth)
     const [product,setProduct] = useState<Product | null>(null);
     const [review,setReview] = useState("");
     const [recommendation,setRecommendatios] = useState([]);
@@ -48,6 +49,9 @@ const ProductDetails : React.FC = () =>{
     const [rating, setRating] = useState<number>(0);
     const swiperRef = useRef<SwiperRef>(null)
     const Navigate = useNavigate()
+
+    console.log(width)
+
     async function GetProductDetails(){
         const response = await axios.get<Product>(`http://127.0.0.1:8000/api/products/${id}`)
         setProduct(response.data)
@@ -158,6 +162,18 @@ const ProductDetails : React.FC = () =>{
     useEffect(()=>{
         GetProductDetails()
     },[])
+
+    useEffect(() =>{
+        function HandleResize(){
+            setWidth(window.innerWidth)
+        }
+
+        window.addEventListener('resize',HandleResize)
+        return()=>{
+            window.removeEventListener('resize',HandleResize)
+        } 
+
+    })
     return(
         <div className="details-container">
             {product ? (
@@ -244,7 +260,7 @@ const ProductDetails : React.FC = () =>{
                                     <Swiper 
                                     ref={swiperRef}
                                     spaceBetween={10}
-                                    slidesPerView={4}
+                                    slidesPerView={(width < 915) ? 1 :(width < 930) ? 2: (width<1150) ? 3:4}
                                     >
                                         {recommendation && recommendation.map(function(item:Product,index:number){
                                             const ProductUrl = `/product/${item._id}`

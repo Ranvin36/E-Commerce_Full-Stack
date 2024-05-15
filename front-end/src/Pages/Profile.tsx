@@ -1,11 +1,50 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import { types } from "../redux/types"
 import { MdDeleteOutline } from "react-icons/md";
+import axios from "axios";
+
+interface ProductDetails{
+    name:string,
+    image:string,
+    price:number
+}
+
+interface Product{
+    product:ProductDetails
+}
 
 
 const Profile : React.FC = () =>{
     const selector = useSelector((state:types)=> state.reducer.data)
+    const[cart,setCart] = useState([])
+    const[favourites,setFavourites] = useState([])
+    async function getCartProduct(){
+        const response = await axios.get(`http://127.0.0.1:8000/api/cart/products/`,{
+            headers:{
+                Authorization:  `Bearer ${selector.token}`
+            }
+        })
+        setCart(response.data)
+
+    }
+    async function getfavouritesProducts(){
+        const response = await axios.get(`http://127.0.0.1:8000/api/favourites/products/`,{
+            headers:{
+                Authorization:  `Bearer ${selector.token}`
+            }
+        })
+        setFavourites(response.data)
+
+    }
+
+    useEffect(() =>{
+        getCartProduct()
+    },[])
+
+    useEffect(() =>{
+        getfavouritesProducts()
+    },[])
     return(
         <div className="profile-container">
             <div className="details-activities">
@@ -31,30 +70,23 @@ const Profile : React.FC = () =>{
                             <h3 style={{fontSize:23}}>Favourites</h3>
                             <div className="section-line"></div>
                         </div>
-                        <div className="activities-grid">
-                            <div className="favourites-image">
-                                <img src="images/realme-c55.png" alt="product-image" />
+                        {favourites.length > 0 ? favourites && favourites.map(function(item:Product,index){
+                            const image = `http://127.0.0.1:8000${item.product.image}`
+                            return(
+                                <div className="activities-grid">
+                                <div className="favourites-image">
+                                    <img src={image} alt="product-image" />
+                                </div>
+                                <h3>{item.product.name}</h3>
+                                <p>${item.product.price}</p>
+                                <MdDeleteOutline/>
                             </div>
-                            <h3>Samsung Galaxy S23</h3>
-                            <p>$1000</p>
-                            <MdDeleteOutline/>
-                        </div>
-                        <div className="activities-grid">
-                            <div className="favourites-image">
-                                <img src="images/realme-c55.png" alt="product-image" />
-                            </div>
-                            <h3>Samsung Galaxy S23</h3>
-                            <p>$1000</p>
-                            <MdDeleteOutline/>
-                        </div>
-                        <div className="activities-grid">
-                            <div className="favourites-image">
-                                <img src="images/realme-c55.png" alt="product-image" />
-                            </div>
-                            <h3>Samsung Galaxy S23</h3>
-                            <p>$1000</p>
-                            <MdDeleteOutline/>
-                        </div>
+                            )
+                        })
+
+                        :
+                            <h1>Empty</h1>
+                        }
                     </div>
                     <div className="orders activities-section">
                         <div className="activities-title">
@@ -82,30 +114,25 @@ const Profile : React.FC = () =>{
                             <h3 style={{fontSize:23}}>Orders</h3>
                             <div className="section-line"></div>
                         </div>
-                        <div className="activities-grid">
-                            <div className="favourites-image">
-                                <img src="images/realme-c55.png" alt="product-image" />
+                        {cart.length > 0 ? cart && cart.map(function(item:Product,index){
+                            const image = `http://127.0.0.1:8000${item.product.image}`
+                            return(
+                                <div className="activities-grid">
+                                <div className="favourites-image">
+                                    <img src={image} alt="product-image" />
+                                </div>
+                                <h3>{item.product.name}</h3>
+                                <p>${item.product.price}</p>
+                                <MdDeleteOutline/>
                             </div>
-                            <h3>Samsung Galaxy S23</h3>
-                            <p>$1000</p>
-                            <MdDeleteOutline/>
-                        </div>
-                        <div className="activities-grid">
-                            <div className="favourites-image">
-                                <img src="images/realme-c55.png" alt="product-image" />
-                            </div>
-                            <h3>Samsung Galaxy S23</h3>
-                            <p>$1000</p>
-                            <MdDeleteOutline/>
-                        </div>
-                        <div className="activities-grid">
-                            <div className="favourites-image">
-                                <img src="images/realme-c55.png" alt="product-image" />
-                            </div>
-                            <h3>Samsung Galaxy S23</h3>
-                            <p>$1000</p>
-                            <MdDeleteOutline/>
-                        </div>
+                            )
+                        })
+
+                        :
+                            <h1>Empty</h1>
+                        }
+
+
                     </div>
                 </div> 
             </div>

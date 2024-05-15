@@ -771,6 +771,12 @@ footer{
   font-size: 14px;
 }
 
+.filter-check{
+  display: flex;
+  align-items: center;
+  margin-right: 5px;
+}
+
 .favourites-container{
   position: absolute;
   top: 10px;
@@ -1042,7 +1048,7 @@ footer{
 }
 
 .section-line{
-  width: 800px;
+  width: 900px;
   height: 1px;
   background-color: #777;
 }
@@ -1053,6 +1059,26 @@ footer{
   margin-right: 20%;
   align-items: center;
   margin: 15px 0;
+}
+
+.activities-grid h3{
+  width: 300px;
+  font-weight: 500;
+}
+
+.favourites-image{
+  background-color: #e9e1e1;
+  width: 50px;
+  height: 50px;
+  padding: 5px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.favourites-image img{
+  width: 50px;
 }
 
 /* Categories */
@@ -1142,6 +1168,15 @@ footer{
     }
 
 }
+
+@media(max-width:1135px){ 
+    .details-layout{
+      flex-direction: column;
+    }
+    .ratings{
+      flex-wrap: wrap;
+    }
+} 
 
 @keyframes rotation {
   from{
