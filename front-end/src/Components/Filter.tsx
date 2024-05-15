@@ -43,7 +43,7 @@ const Filter: React.FC<FilterProp> = ({type}) =>{
     return(
         <div className="filter">
                 <div className="filter-check">
-                    <input type="checkbox" name="" id="" checked={checked.value} onChange={()=>HandleCheckBox("Laptop")}/>
+                    <input type="checkbox" name="" id="" checked={checked.value} onChange={()=>HandleCheckBox("Laptops")}/>
                     <p>Laptops</p>
                 </div>
                 <div className="filter-input">

@@ -52,9 +52,10 @@ def RecommendProducts(request,pk):
 
 @api_view(['POST'])
 def PriceFilter(request):
-    maxQuery = request.GET.get('max',None)
-    minQuery=request.GET.get('min',None)
+    maxQuery = request.GET.get('max',99999)
+    minQuery=request.GET.get('min',0)
     productQuery = request.GET.get('query','')
+    categoryQuery = request.GET.get('category','')
     if(maxQuery and minQuery):
         maxPrice = float(maxQuery)
         minPrice = float(minQuery)
