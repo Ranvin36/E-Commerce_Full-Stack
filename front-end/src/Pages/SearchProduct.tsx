@@ -88,22 +88,29 @@ const SearchProduct : React.FC = () =>{
     }
 
     return(
-
-        <div className="search-container">
-            <div className="search-title">
-                <h3>Products Found : {selector.length}</h3>
+        <div className="search-view">
+            <div className="filter-view">
+                <div className="search-title">
+                    <h3>{selector.length} Results For "{search.search}"</h3>
+                </div>
+                <div className="filter-container">
+                        <h1>Filter</h1>
+                        <Filter type="normal"/>
+                </div>
             </div>
-            <Filter type="normal"/>
-            <div className="search-products">
-                {selector && selector.map(function(item : Product,index:number){
-                    const filterProduct = favouritesReducer.filter((productData) => productData._id === item._id)
-                    const ProductUrl = `/product/${item._id}`
-                    return(
-                            <React.Fragment>
-                                <Product item={item}/>
-                            </React.Fragment>
-                    )
-                })}
+
+            <div className="search-container">
+                <div className="search-products">
+                    {selector && selector.map(function(item : Product,index:number){
+                        const filterProduct = favouritesReducer.filter((productData) => productData._id === item._id)
+                        const ProductUrl = `/product/${item._id}`
+                        return(
+                                <React.Fragment>
+                                    <Product item={item}/>
+                                </React.Fragment>
+                        )
+                    })}
+                </div>
             </div>
         </div>
     )
