@@ -5,7 +5,7 @@ import { categoryFilterAction, searchAction } from "../redux/action"
 import { useState,useContext } from "react"
 import { SearchContext } from "../context/context"
 import { CiFilter } from "react-icons/ci";
-import  Slider  from "@mui/material/Slider"
+
 
 interface FilterProp{
     type:string
@@ -18,7 +18,6 @@ const Filter: React.FC<FilterProp> = ({type}) =>{
     const search = useContext(SearchContext)
     const [minprice, setMinPrice] = useState<number>(0)
     const [maxPrice, setMaxPrice] = useState<number>(999999)
-    const [value,setValue] = useState([30,999])
     const [checked, setChecked] = useState({value:false , category:"null"})
     async function HandleFilter(){
         try{
@@ -44,14 +43,9 @@ const Filter: React.FC<FilterProp> = ({type}) =>{
         setChecked(({value:true , category}))
     }
 
-    function HandleSliderChange(event : Event, newValue:number | number[] ){
-        setValue(newValue as number[])
-    }
-
     return(
         <div className="filter">
                 <div className="filter-categories">
-                    <h2>Categories</h2>
                     <div className="filter-check">
                         <input type="checkbox" name="" id="" onChange={()=>setChecked(({value:true , category:"Laptops"}))} style={{marginRight:5}}/>
                         <p>Laptops</p>
@@ -65,21 +59,12 @@ const Filter: React.FC<FilterProp> = ({type}) =>{
                         <p>Tablets</p>
                     </div>
                 </div>
-                <div className="filter-numbers"> 
-                    <h2>Slider</h2>
-
-                    <div className="slider"  style={{width:180}}>                        
-                        <Slider
-                                getAriaLabel={() => 'Temperature range'}
-                                value={value}
-                                max={10000}
-                                onChange={HandleSliderChange}
-                                valueLabelDisplay="auto"
-                            />
-                            <div className="slider-texts" style={{display:"flex",justifyContent:"space-between"}}>
-                                <p>Min</p>
-                                <p>Max</p>
-                            </div>
+                <div className="filter-numbers">
+                    <div className="filter-input">
+                        <input type="number" placeholder="Min" onChange={(e)=> setMinPrice(parseInt(e.target.value))} />
+                    </div>
+                    <div className="filter-input">
+                        <input type="number" placeholder="Max" onChange={(e)=>setMaxPrice(parseInt(e.target.value))}/>
                     </div>
                     <div className="filter-button" onClick={HandleFilter}>
                         <CiFilter color="#fff" size={23}/>

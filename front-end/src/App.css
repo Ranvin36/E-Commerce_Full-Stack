@@ -688,29 +688,11 @@ footer{
 
 /* Search-Page */
 
-.search-view{
-  display: flex;
-  padding: 30px 30px;
-}
-
-.filter-container{
-  width: 300px;
-  padding: 20px 35px;
-  background-color: #e9e1e172;
-  margin-right: 30px;
-  border-radius: 5px;
-  min-height: 100vh;
-}
-
-.filter-view h1{
-  font-weight: 300;
-  font-size: 25px;
-}
 
 .search-container{
-  min-height: 100vh;
   margin: 20px 0;
-
+  padding: 10px 30px;
+  min-height: 100vh;
 }
 
 .search-title h3{
@@ -741,7 +723,10 @@ footer{
   object-fit: cover;
 }
 
-
+.filter-numbers{
+  display: flex;
+  align-items: center;
+}
 
 .filter-input{
   background-color: #e9e1e1;
@@ -795,19 +780,11 @@ footer{
   background-color: #e9e1e1;
   padding: 10px 15px;
   border-radius: 5px;
-  margin: 5px 0;
-
 }
 
 .filter-categories{
-  width: 180px;
-  flex-direction: column;
-}
-
-.filter h2{
-  font-size: 17px;
-  color: #978888;
-  margin: 10px 0;
+  display: flex;
+  align-items: center;
 }
 
 .favourites-container{
