@@ -56,7 +56,7 @@ class CartSerializer(serializers.ModelSerializer):
         serializer = ProductSerializer(product, many=False)
         return serializer.data
     
-class FavouritesSertializer(serializers.ModelSerializer):
+class FavouritesSerializer(serializers.ModelSerializer):
     product  = serializers.SerializerMethodField(read_only=False)
     class Meta:
         model=Favourite

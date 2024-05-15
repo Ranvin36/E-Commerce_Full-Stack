@@ -8,9 +8,10 @@ import { IoIosHeartEmpty } from "react-icons/io";
 import {FaHeart } from "react-icons/fa"
 import axios from "axios";
 import { toast } from "react-toastify";
-import { removeFavouritesProduct } from "../redux/favouritesReducer";
+import { clearFavourites, removeFavouritesProduct,fetchFavouriteProducts } from "../redux/favouritesReducer";
 import { cartProductsfetchSuccesful } from "../redux/cartReducer";
-import { clearCart } from "../redux/cartReducer";
+import { clearCart, removeProductFromCart } from "../redux/cartReducer";
+
 interface ProductItem {
     _id:number,
     name:string,
@@ -56,6 +57,7 @@ const Product : React.FC<Productprops>= ({item}) =>{
                     Authorization:  `Bearer ${user.token}`
                 }
             })
+            dispatch(fetchFavouriteProducts([response.data]))
             console.log(response)
             toast.success("🤙 Added To Favourites")
         }
@@ -64,21 +66,46 @@ const Product : React.FC<Productprops>= ({item}) =>{
         }
     }
 
+    
     function removeFromfavourites(id:number){
-        console.log("INside")
         try{
+            const response = axios.delete(`http://127.0.0.1:8000/api/favourites/delete/${id}`,{
+                headers:{
+                    Authorization:`Bearer ${user.token}`
+                }
+            } )
+            console.log(response)
             dispatch(removeFavouritesProduct(id))
+            toast.error("Removed From Favourites")
         }
         catch(error){
-
+            console.log(error)
         }
     }
+
+    function removeFromCart(id:number){
+        try{
+            const response = axios.delete(`http://127.0.0.1:8000/api/cart/delete/${id}`,{
+                headers:{
+                    Authorization:`Bearer ${user.token}`
+                }
+            })
+            console.log(response)
+            dispatch(removeProductFromCart(id))
+            toast.error("Removed From Cart")
+
+        }   
+        catch(error){
+            console.log(error)
+        }
+    }
+
     function ViewProduct(id:number){
         navigate(`/product/${id}`)
     }
+
     const filterProduct = favouritesReducer.filter((favourite) => favourite.product._id === item._id);
     const cartFilter = cartReducer.filter((cart)=> cart.product._id === item._id);
-    console.log(cartReducer , " : CART")
     return(
         <div className="product-layout">
              <div className="favourites-container" onClick={()=> filterProduct.length>0  ? removeFromfavourites(item._id) : AddToFavourites(item._id)}>
@@ -103,7 +130,7 @@ const Product : React.FC<Productprops>= ({item}) =>{
                         <p>${item.price}</p>
                     </div>
             </div>
-            <div className="product-cart" onClick={()=>AddToCart(item._id)} style={{backgroundColor:cartFilter.length>0?"#fff":"#FF5B76"}}>
+            <div className="product-cart" onClick={()=> cartFilter.length >0 ?  removeFromCart(item._id) :AddToCart(item._id) } style={{backgroundColor:cartFilter.length>0?"#fff":"#FF5B76"}}>
                 <TbShoppingBagPlus  size={23} className="product-cart-icon" color={cartFilter.length>0 ? "#FF5B76" :"#fff"} />
             </div>
         </div>

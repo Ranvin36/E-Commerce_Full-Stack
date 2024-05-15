@@ -17,7 +17,7 @@ const favouritesSlice = createSlice({
         },
         removeFavouritesProduct : (state, action:PayloadAction<number>) =>{
             const ProductId = action.payload
-            state.data = state.data.filter((item) => item._id !== ProductId)
+            state.data = state.data.filter((item) => item.product._id !== ProductId)
         },
         clearFavourites : (state) =>{
             state.data=[]

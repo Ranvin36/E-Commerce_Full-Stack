@@ -1,7 +1,7 @@
 from rest_framework.decorators import permission_classes,api_view
 from rest_framework.response import Response
 from base.models import Favourite , Product 
-from base.serializers import FavouritesSertializer
+from base.serializers import FavouritesSerializer
 from rest_framework import status
 @permission_classes(['IsAuthenticated'])
 @api_view(['POST'])
@@ -14,14 +14,15 @@ def addTofavourites(request,pk):
         user=user,
         product=product
     )
-    return Response({"Message" : "Product Added To Cart Successfully"})
+    serializer = FavouritesSerializer(createFavourite,many=False)
+    return Response(serializer.data)
 
 @permission_classes(['IsAuthenticated'])
 @api_view(['GET'])
 def getFavouriteProducts(request):
     user= request.user
     getUserCart= Favourite.objects.filter(user__id = user.id)
-    serializer = FavouritesSertializer(getUserCart, many=True)
+    serializer = FavouritesSerializer(getUserCart, many=True)
     return Response(serializer.data)
 
 @permission_classes(['IsAuthenticated'])

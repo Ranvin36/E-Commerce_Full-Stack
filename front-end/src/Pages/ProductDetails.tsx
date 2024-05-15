@@ -109,14 +109,6 @@ const ProductDetails : React.FC = () =>{
         }
     }
 
-    // function AddToCart(item:Product){
-    //     try{
-    //         dispatch(cartProductsfetchSuccesful([item]))
-    //     }
-    //     catch(error){
-    //         console.log("ERROR " + error)
-    //     }
-    // }
     async function AddToCart(productId:number){
         try{
             const response = await axios.post(`http://127.0.0.1:8000/api/cart/add/${productId}`,null,{
@@ -134,9 +126,16 @@ const ProductDetails : React.FC = () =>{
         }
     }
 
-    function AddToFavourites(item:Product){
+    async function AddToFavourites(productId:number){
         try{
-            dispatch(fetchFavouriteProducts([item]))
+            const response = await axios.post(`http://127.0.0.1:8000/api/favourites/add/${productId}`,null,{
+                headers:{
+                    Authorization:  `Bearer ${user.token}`
+                }
+            })
+            console.log(response)
+            toast.success("🤙 Added To Favourites")
+            dispatch(fetchFavouriteProducts(response.data))
         }
         catch(error){
             console.log("ERROR : " + error)
@@ -252,7 +251,7 @@ const ProductDetails : React.FC = () =>{
                                             return(
                                                 <SwiperSlide key={index}>
                                                     <div key={index} className="search-product">
-                                                        <div className="favourites-container" onClick={()=>AddToFavourites(item)}>
+                                                        <div className="favourites-container" onClick={()=>AddToFavourites(item._id)}>
                                                             <IoIosHeartEmpty style={{color:"rgb(255, 91, 118)"}} size={20}/>
                                                         </div>
                                                         <Link className="product-img" to={ProductUrl}>

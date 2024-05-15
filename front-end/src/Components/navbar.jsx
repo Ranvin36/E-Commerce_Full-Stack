@@ -26,8 +26,6 @@ function Navbar(){
     const[favouritesReducer, setFavouritesReducer] = useState([])
     const selector = useSelector((state)=> state.reducer.data)
     const searchContext = useContext(SearchContext)
-    // const cartReducer = useSelector((state) => state.cartReducer.data)
-    // const favouritesReducer = useSelector((state) => state.favouritesReducer.data)
     const search = searchContext.search
     const Navigation = useNavigate()
     const dispatch=useDispatch()
@@ -43,10 +41,7 @@ function Navbar(){
             Finding()
         }
     }
-    
-    // function DeleteProduct(id){
-    //     dispatch(removeProductFromCart(id))
-    // }
+
     async function DeleteProduct(id){
         dispatch(removeProductFromCart(id))
         try{
@@ -107,7 +102,6 @@ function Navbar(){
                 }
             })
             console.log(response.data)
-            dispatch(fetchFavouriteProducts(response.data))
             setFavouritesReducer(response.data)
         }
         catch(error){
