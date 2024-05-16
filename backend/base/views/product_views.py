@@ -5,6 +5,7 @@ from rest_framework.decorators import api_view , permission_classes
 from base.serializers import ProductSerializer ,CartSerializer
 from base.models import Product,Cart_Product
 from rest_framework import status
+from django.db.models import Q
 
 @api_view(['GET'])
 def SearchProduct(request):
@@ -56,10 +57,26 @@ def PriceFilter(request):
     minQuery=request.GET.get('min',None)
     productQuery = request.GET.get('query','')
     categoryQuery = request.GET.get('category',None)
-    if(maxQuery and minQuery and len(categoryQuery) > 4):
+
+
+    if(maxQuery and minQuery and len(categoryQuery) > 0):
         maxPrice = float(maxQuery)
         minPrice = float(minQuery)
-        findproduct = Product.objects.filter(category__name=categoryQuery,name__icontains=productQuery , price__lte=maxPrice , price__gte=minPrice)
+        splitCategory  = categoryQuery.split(", ")
+        print(splitCategory , len(splitCategory))
+        if(len(splitCategory) ==1):
+            findproduct = Product.objects.filter(category__name=categoryQuery,name__icontains=productQuery , price__lte=maxPrice , price__gte=minPrice)
+        elif(len(splitCategory) == 2):
+            category1= splitCategory[0]
+            category2= splitCategory[1]
+            findproduct = Product.objects.filter(Q(category__name=category1)  | Q(category__name=category2),name__icontains=productQuery , price__lte=maxPrice , price__gte=minPrice)
+        else:
+            category1= splitCategory[0]
+            category2= splitCategory[1]
+            category3= splitCategory[2]
+            findproduct = Product.objects.filter(Q(category__name=category1) | Q(category__name=category2) | Q(category__name=category3),name__icontains=productQuery , price__lte=maxPrice , price__gte=minPrice)
+
+
     elif(maxQuery and minQuery):
         maxPrice = float(maxQuery)
         minPrice = float(minQuery)

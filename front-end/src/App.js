@@ -13,8 +13,8 @@ import Category from './Pages/Category.tsx';
 import PreLoader from './Pages/PreLoader.tsx'
 import { useSelector } from 'react-redux';
 import { Flip, ToastContainer, toast } from 'react-toastify';
-
-
+import ResetPasswordConfrimation from "./Pages/resetPassword.tsx"
+import ResetEmail from "./Pages/resetEmail.tsx"
 function App() {
   const user = useSelector((state) => state.reducer.data)
   const loggedIn = user.token ? true : false
@@ -34,6 +34,8 @@ function App() {
         <Route path='/category/:id' element={<Category/>}/>
         <Route path='/profile/:id' element={<Profile/>}/>
         <Route path='product/:id' element={<ProductDetails/>}/>
+        <Route path='reset/email' exact  element={<ResetEmail/>}/>
+        <Route path='password/reset' exact  element={<ResetPasswordConfrimation/>}/>
       </Routes>
       <Footer/>
     </div>

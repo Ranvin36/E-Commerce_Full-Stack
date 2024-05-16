@@ -18,7 +18,7 @@ const Filter: React.FC<FilterProp> = ({type}) =>{
     const search = useContext(SearchContext)
     const [minprice, setMinPrice] = useState<number>(0)
     const [maxPrice, setMaxPrice] = useState<number>(999999)
-    const [checked, setChecked] = useState({value:false , category:"null"})
+    const [checked, setChecked] = useState({value:false , category:""})
     async function HandleFilter(){
         try{
             if(ifCategory){
@@ -36,26 +36,41 @@ const Filter: React.FC<FilterProp> = ({type}) =>{
         }
     }
     function HandleCheckBox(category:string){
-        if(checked.value){
-            setChecked(({value:false , category:"null"}))
-            return
-        }
-        setChecked(({value:true , category}))
-    }
 
+            setChecked((prev)=>{
+                if(prev.category.includes(category)){
+                    const updatedCategory = prev.category.split(", ").filter((item) => item !== category).join(", ")
+                    return{
+                        value:true,
+                        category:updatedCategory
+                    }
+                }
+                else{
+                    const updatedCategories = prev.category
+                ? `${prev.category}, ${category}`
+                : category;
+            return {
+                value: true,
+                category: updatedCategories
+            };
+                }
+
+            })
+        
+    }
     return(
         <div className="filter">
                 <div className="filter-categories">
                     <div className="filter-check">
-                        <input type="checkbox" name="" id="" onChange={()=>setChecked(({value:true , category:"Laptops"}))} style={{marginRight:5}}/>
+                        <input type="checkbox" name="" id="" onChange={()=>HandleCheckBox("Laptops")} style={{marginRight:5}}/>
                         <p>Laptops</p>
                     </div>
                     <div className="filter-check">
-                        <input type="checkbox" name="" id="" onChange={()=>setChecked(({value:true , category:"Mobile Phones"}))} style={{marginRight:5}}/>
+                        <input type="checkbox" name="" id="" onChange={()=>HandleCheckBox("Mobile Phones")} style={{marginRight:5}}/>
                         <p>Mobile Phones</p>
                     </div>
                     <div className="filter-check">
-                        <input type="checkbox" name="" id="" onChange={()=>setChecked(({value:true , category:"Tablets"}))} style={{marginRight:5}}/>
+                        <input type="checkbox" name="" id="" onChange={()=>HandleCheckBox("Tablets")} style={{marginRight:5}}/>
                         <p>Tablets</p>
                     </div>
                 </div>

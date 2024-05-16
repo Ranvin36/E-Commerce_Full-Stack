@@ -198,7 +198,7 @@
 
 /* Login */
 
-.login-container{
+.login-container , .reset-container{
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1121,6 +1121,21 @@ footer{
 .brand-container p{
   font-size: 15px;
   font-weight: 300;
+}
+
+/* Reset */
+
+.send-email-btn{
+  background-color: rgb(255, 91, 118);
+  padding: 10px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.send-email-btn p{
+  color: #fff;
 }
 
 
