@@ -36,7 +36,7 @@ const ResetPasswordConfrimation : React.FC = () =>{
              <InputFields title="Password" type="password" onChange={setPassword} />
              <InputFields title="Confirm Password" type="password" onChange={setConfirmPassword}/>
              <div className="cart-btn login-btn" onClick={UserLogin}>
-                 <Link className="link" to="">Sign In</Link>
+                 <Link className="link" to="">Reset Password</Link>
              </div>
 
          </div>

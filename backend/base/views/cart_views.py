@@ -2,7 +2,8 @@ from rest_framework.decorators import api_view , permission_classes
 from rest_framework.response import Response
 from django.contrib.auth.models import User
 from base.models import Cart_Product,Product
-from base.serializers import CartSerializer
+from base.serializers import CartSerializer,ProductSerializer
+from django.db.models.query import Q
 from rest_framework import status
 
 
@@ -41,3 +42,25 @@ def removeFromCart(request,pk):
         return Response({"Message" : "Product Removed From Cart Successfully"})
     except(Exception):
          return Response({'Message' : Exception})
+    
+@permission_classes(['IsAuthenticated'])
+@api_view(['GET'])
+def Recommendation(request):
+    categoryQuery = request.GET.get('category','')
+    splitCategory = categoryQuery.split(", ")
+    print(len(splitCategory) , splitCategory)
+    if(len(splitCategory) ==1):
+        name= splitCategory[0]
+        filterProducts = Product.objects.filter(name__icontains=name)
+    elif(len(splitCategory)==2):
+        print("INSIDE")
+        name1=splitCategory[0]
+        name2=splitCategory[1]
+        filterProducts = Product.objects.filter(Q(name__icontains=name1) | Q(name__icontains=name2))
+    else:
+        return Response({'Message','Invalid Categories'})
+    serializer = ProductSerializer(filterProducts, many=True)
+    return Response(serializer.data)
+
+
+     

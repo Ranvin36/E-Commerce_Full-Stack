@@ -15,9 +15,12 @@ import { useSelector } from 'react-redux';
 import { Flip, ToastContainer, toast } from 'react-toastify';
 import ResetPasswordConfrimation from "./Pages/resetPassword.tsx"
 import ResetEmail from "./Pages/resetEmail.tsx"
+import Cart from "./Pages/cart.tsx"
 function App() {
   const user = useSelector((state) => state.reducer.data)
-  const loggedIn = user.token ? true : false
+  const loggedIn = () =>{
+    return user.token && user.token.length>0
+  }
   return (
     <div>
       <Routes>
@@ -28,9 +31,10 @@ function App() {
       <ToastContainer position='bottom-right' theme='dark' transition={Flip} stacked />
       <Routes>
         <Route path='/' element={ <Home/> }/>
-        <Route path='/register' element={loggedIn? <Home/> :<Register/>}/>
-        <Route path='/login' element={loggedIn? <Home/> :  <Login/>}/>
+        <Route path='/register' element={loggedIn()? <Home/> :<Navigate to='/'/>}/>
+        <Route path='/login' element={loggedIn()? <Home/> :  <Login/>}/>
         <Route path='/search' element={<SearchProduct/>}/>
+        <Route path='/cart' element={<Cart/>}/>
         <Route path='/category/:id' element={<Category/>}/>
         <Route path='/profile/:id' element={<Profile/>}/>
         <Route path='product/:id' element={<ProductDetails/>}/>

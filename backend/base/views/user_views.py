@@ -47,10 +47,10 @@ def changeUsername(request,pk):
         serializer.save()
     return Response(serializer.data)
 
-@permission_classes(['IsAuthenticated'])
 @api_view(['POST'])
 def resetPassword(request):
-    user= request.user
+    data= request.data
+    user = User.objects.get(email=data['email'])
     token = default_token_generator.make_token(user)
     encode_token  = urlsafe_base64_encode(force_bytes(user.id))
     reset_link = f"http://localhost:3000/password/reset/?uidb64={encode_token}&token={token}"
@@ -59,7 +59,6 @@ def resetPassword(request):
     send_mail(subject ,message,"ranvin.789@gmail.com",[user.email])
     return Response({"Message":"Password Reset Email Sent Successfully"})
 
-@permission_classes(['IsAuthenticated'])
 @api_view(['POST'])
 def resetPasswordConfirmation(request):
     data=request.data
