@@ -17,6 +17,7 @@ import { SearchContext } from "../context/context";
 import { removeProductFromCart } from "../redux/cartReducer";
 import { removeFavouritesProduct,fetchFavouriteProducts } from "../redux/favouritesReducer";
 import { toast } from "react-toastify";
+import {types} from '../redux/types'
 
 function Navbar(){
     const[expand, setExpand] = useState(false)
@@ -25,6 +26,8 @@ function Navbar(){
     const[cartReducer, setCartReducer] = useState([])
     const[favouritesReducer, setFavouritesReducer] = useState([])
     const selector = useSelector((state)=> state.reducer.data)
+    const cartReducers = useSelector((state:types) => state.cartReducer.data)
+    const favouritesReducers = useSelector((state:types) => state.favouritesReducer.data)
     const searchContext = useContext(SearchContext)
     const search = searchContext.search
     const Navigation = useNavigate()
@@ -110,12 +113,14 @@ function Navbar(){
             console.log("error")
         }
     }
-    useEffect(()=>{
-        getProductInCart()
-    },[])
+
     useEffect(()=>{
         getProductInFavourites()
-    },[])
+    },[favouritesReducers])
+
+    useEffect(()=>{
+        getProductInCart()
+    },[cartReducers])
     return(
         <div className="navbar">
             <div className="options">

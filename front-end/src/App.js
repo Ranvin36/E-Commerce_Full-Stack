@@ -31,8 +31,8 @@ function App() {
       <ToastContainer position='bottom-right' theme='dark' transition={Flip} stacked />
       <Routes>
         <Route path='/' element={ <Home/> }/>
-        <Route path='/register' element={loggedIn()? <Home/> :<Navigate to='/'/>}/>
-        <Route path='/login' element={loggedIn()? <Home/> :  <Login/>}/>
+        <Route path='/register' element={ <Home/> }/>
+        <Route path='/login' element={  <Login/>}/>
         <Route path='/search' element={<SearchProduct/>}/>
         <Route path='/cart' element={<Cart/>}/>
         <Route path='/category/:id' element={<Category/>}/>
