@@ -269,6 +269,14 @@
   background-color: rgb(246, 126, 146);
 }
 
+.forgot-password{
+  font-weight: 400;
+  font-size: 15px;
+  margin: 10px 0;
+  cursor: pointer;
+  color:rgb(209, 163, 163)
+}
+
 /* preloader */
 .preloader-logo{
   position: relative;
@@ -853,6 +861,50 @@ footer{
   text-align: center;
   padding:5px 15px;
 }
+
+.storage-variant{
+  background-color: #fff;
+  max-width: 250px;
+  padding: 10px;
+  border-radius: 4px;
+  margin: 10px 0;
+  box-shadow: 0 0 20px #c9c9c9;
+}
+
+.storage-variant h4{
+  font-size: 20px;
+  font-weight: 400;
+  margin-left: 10px;
+}
+
+.variant-layout{
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.varient-option{
+  width: 100px;
+  box-shadow: 0 0 20px #c9c9c9;
+  background-color: #fff;
+  padding: 8px 5px;
+  border-radius: 5px;
+  margin: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.varient-option h3{
+  font-weight: 500;
+  font-size: 18px;
+}
+.varient-option p{
+  font-weight: 300;
+  font-size: 15px;
+  margin-top: 0px;
+}
+
 
 
 .add-to-cart p{

@@ -26,8 +26,8 @@ function Navbar(){
     const[cartReducer, setCartReducer] = useState([])
     const[favouritesReducer, setFavouritesReducer] = useState([])
     const selector = useSelector((state)=> state.reducer.data)
-    const cartReducers = useSelector((state:types) => state.cartReducer.data)
-    const favouritesReducers = useSelector((state:types) => state.favouritesReducer.data)
+    const cartReducers = useSelector((state) => state.cartReducer.data)
+    const favouritesReducers = useSelector((state) => state.favouritesReducer.data)
     const searchContext = useContext(SearchContext)
     const search = searchContext.search
     const Navigation = useNavigate()

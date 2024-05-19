@@ -20,6 +20,7 @@ import { RiArrowDropRightLine ,RiArrowDropLeftLine} from "react-icons/ri";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
+
 interface Reviews{
     _id:number,
     name:string,
@@ -36,10 +37,23 @@ interface Product{
     reviews:Reviews[]
 }
 
+interface ProductItem {
+    _id:number,
+    name:string,
+    image:string,
+    price:number
+}
+
+interface CartItem{
+    _id:number
+    product:ProductItem
+}
+
 const ProductDetails : React.FC = () =>{
     const {id} = useParams()
     const dispatch = useDispatch()
     const user = useSelector((state:types)=> state.reducer.data)
+    const cartReducer = useSelector((state:types) => state.cartReducer.data)
     const [width,setWidth] =useState(window.innerWidth)
     const [product,setProduct] = useState<Product | null>(null);
     const [review,setReview] = useState("");
@@ -66,6 +80,7 @@ const ProductDetails : React.FC = () =>{
                 }
             })
             toast("🤙 Review Posted Successfully")
+            window.location.reload()
             // setPopupMessage("Review Posted Succesfully")
             // setReviewPosted(true)
             // setTimeout(()=>{
@@ -154,6 +169,9 @@ const ProductDetails : React.FC = () =>{
         swiperRef?.current?.swiper.slideNext()
     }
 
+    const filterProduct = cartReducer.filter((item:CartItem) => item.product._id === product?._id)
+    console.log(filterProduct)
+
     useEffect(()=>{
         recommendProducts()
     },[product])
@@ -176,7 +194,9 @@ const ProductDetails : React.FC = () =>{
     })
     return(
         <div className="details-container">
-            {product ? (
+            {product ? 
+            
+            (
                 <React.Fragment>
                     <div className="details-layout">
                         
@@ -186,10 +206,39 @@ const ProductDetails : React.FC = () =>{
                         <div className="details-info">
                             <h3>{product.name}</h3>
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                            <h2>${product.price}</h2>
-                            <div className="add-to-cart" onClick={()=>AddToCart(product._id)}>
-                                <p>Add To Cart</p>
+                            <div className="storage-variant">
+                                <h4>Storage</h4>
+                                <div className="variant-layout">
+                                    <div className="varient-option">
+                                        <h3>$250</h3>
+                                        <p>128GB</p>
+                                    </div>
+                                    <div className="varient-option">
+                                        <h3>$250</h3>
+                                        <p>128GB</p>
+                                    </div>
+                                    <div className="varient-option">
+                                        <h3>$250</h3>
+                                        <p>128GB</p>
+                                    </div>
+                                    <div className="varient-option">
+                                        <h3>$250</h3>
+                                        <p>128GB</p>
+                                    </div>
+                                </div>
                             </div>
+                            
+                            <h2>${product.price}</h2>
+                            {filterProduct?  
+                              <div className="add-to-cart" style={{width:150, backgroundColor:"#333",cursor:'not-allowed'}}>
+                                    <p>Remove From Cart</p>
+                              </div>                           
+                                :
+                                <div className="add-to-cart" onClick={()=>AddToCart(product._id)}>
+                                    <p>Add To Cart</p>
+                                </div>
+                              
+                            }
                         </div>
     
                     </div>

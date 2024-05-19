@@ -10,7 +10,6 @@ import { types } from "../redux/types"
 import { GoCodeReview } from "react-icons/go";
 import { TbUserX } from "react-icons/tb";
 
-
 const Login : React.FC = () => {
     const[username,setUsername] = useState<string>("")
     const[password,setPassword] = useState<string>("")
@@ -48,6 +47,7 @@ const Login : React.FC = () => {
                 <div className="fields">
                     <InputFields title="Username" type="text" onChange={setUsername} />
                     <InputFields title="Password" type="password" onChange={setPassword}/>
+                    <Link className="forgot-password"  to='/reset/email'>Forgot Password?</Link>
                     <div className="cart-btn login-btn" onClick={UserLogin}>
                         <Link className="link" to="">Sign In</Link>
                     </div>
