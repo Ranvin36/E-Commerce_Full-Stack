@@ -192,6 +192,8 @@ const ProductDetails : React.FC = () =>{
         } 
 
     })
+
+    console.log(filterProduct)
     return(
         <div className="details-container">
             {product ? 
@@ -229,7 +231,7 @@ const ProductDetails : React.FC = () =>{
                             </div>
                             
                             <h2>${product.price}</h2>
-                            {filterProduct?  
+                            {filterProduct.length>0?  
                               <div className="add-to-cart" style={{width:150, backgroundColor:"#333",cursor:'not-allowed'}}>
                                     <p>Remove From Cart</p>
                               </div>                           

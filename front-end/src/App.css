@@ -894,7 +894,16 @@ footer{
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
+  transition: 0.5s;
 }
+
+.varient-option:hover{
+  /* transform: scale(1.02); */
+  background-color: #fcf3f3;
+}
+
+
 .varient-option h3{
   font-weight: 500;
   font-size: 18px;
