@@ -2,8 +2,8 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view , permission_classes
 # from django.contrib.auth.models import User
-from base.serializers import ProductSerializer ,CartSerializer
-from base.models import Product,Cart_Product
+from base.serializers import ProductSerializer ,CartSerializer,StorageSerializer
+from base.models import Product,Cart_Product, Storage,Brand
 from rest_framework import status
 from django.db.models import Q
 
@@ -98,5 +98,3 @@ def LatestProducts(request):
     get_latest_products = Product.objects.all().order_by('created_at')[:8]
     serializer = ProductSerializer(get_latest_products, many=True)
     return Response(serializer.data)
-
-

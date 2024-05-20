@@ -862,6 +862,9 @@ footer{
   padding:5px 15px;
 }
 
+.variants{
+  display: flex;
+}
 .storage-variant{
   background-color: #fff;
   max-width: 250px;
@@ -869,6 +872,7 @@ footer{
   border-radius: 4px;
   margin: 10px 0;
   box-shadow: 0 0 20px #c9c9c9;
+  margin-right: 20px;
 }
 
 .storage-variant h4{
@@ -914,7 +918,34 @@ footer{
   margin-top: 0px;
 }
 
+.variant-selected{
+  border: 1px solid rgb(249, 184, 184)
 
+}
+
+.colors{
+  display: flex;
+}
+
+.color-varients{
+  padding: 0px 10px;
+}
+
+.color-selected{
+  border: 2px solid rgb(249, 184, 184);
+}
+
+.color-varients h4{
+  font-weight: 300;
+}
+
+.color-box{
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: blanchedalmond;
+  margin-right: 5px;
+}
 
 .add-to-cart p{
   color: #fff

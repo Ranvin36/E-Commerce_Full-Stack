@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from rest_framework_simplejwt.tokens import RefreshToken
-from base.models import Product, Reviews,Category, Cart_Product , Favourite
+from base.models import Product, Reviews,Category, Cart_Product , Favourite, Brand, Storage, Color
 
 class UserSerializer(serializers.ModelSerializer):
     _id = serializers.SerializerMethodField(read_only=True)
@@ -23,6 +23,8 @@ class UserSerializerWithToken(UserSerializer):
 
 class ProductSerializer(serializers.ModelSerializer):
     reviews= serializers.SerializerMethodField(read_only=True)
+    storage = serializers.SerializerMethodField(read_only=True)
+    color= serializers.SerializerMethodField(read_only=True)
     class Meta:
         model = Product
         fields='__all__'
@@ -30,6 +32,15 @@ class ProductSerializer(serializers.ModelSerializer):
         reviews = obj.reviews_set.all()
         serializer = ReviewSerializer(reviews, many=True)
         return serializer.data
+    def get_storage(self,obj):
+        storage = obj.storage
+        serializer =  StorageSerializer(storage,many=True)
+        return serializer.data
+    def get_color(self,obj):
+        color = obj.color
+        serializer = ColorSerializer(color, many=True)
+        return serializer.data
+
 
 class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
@@ -45,9 +56,17 @@ class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model=Category
         fields='__all__'
+class StorageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Storage
+        fields='__all__'
+class ColorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Color
+        fields='__all__'
 
 class CartSerializer(serializers.ModelSerializer):
-    product  = serializers.SerializerMethodField(read_only=False)
+    product  = serializers.SerializerMethodField(read_only=True)
     class Meta:
         model=Cart_Product
         fields='__all__'
@@ -57,7 +76,7 @@ class CartSerializer(serializers.ModelSerializer):
         return serializer.data
     
 class FavouritesSerializer(serializers.ModelSerializer):
-    product  = serializers.SerializerMethodField(read_only=False)
+    product  = serializers.SerializerMethodField(read_only=True)
     class Meta:
         model=Favourite
         fields='__all__'

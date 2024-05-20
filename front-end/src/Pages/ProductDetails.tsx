@@ -29,12 +29,24 @@ interface Reviews{
     user:[]
 }
 
+interface Storage{
+    _id:number,
+    size:number
+}
+
+interface Color{
+    _id:number,
+    color_code:string
+}
+
 interface Product{
     _id:number,
     name:string,
     image:string,
     price:number,
-    reviews:Reviews[]
+    reviews:Reviews[],
+    storage:Storage[],
+    color:Color[]
 }
 
 interface ProductItem {
@@ -60,11 +72,14 @@ const ProductDetails : React.FC = () =>{
     const [recommendation,setRecommendatios] = useState([]);
     const [popupMessage,setPopupMessage] = useState("");
     const [reviewPosted,setReviewPosted] = useState(false);
+    const [selectedStorage,setSelectedStorage] = useState<number>()
+    const [selectedColor,setSelectedColor] = useState<string>("a")
     const [rating, setRating] = useState<number>(0);
     const swiperRef = useRef<SwiperRef>(null)
     const Navigate = useNavigate()
 
-    console.log(width)
+
+    console.log(product)
 
     async function GetProductDetails(){
         const response = await axios.get<Product>(`http://127.0.0.1:8000/api/products/${id}`)
@@ -136,6 +151,8 @@ const ProductDetails : React.FC = () =>{
                 }
             })
             console.log(response)
+            dispatch(cartProductsfetchSuccesful([response.data]))
+
             toast.success("🤙 Added To Cart")
 
         }
@@ -193,7 +210,7 @@ const ProductDetails : React.FC = () =>{
 
     })
 
-    console.log(filterProduct)
+    console.log(selectedStorage)
     return(
         <div className="details-container">
             {product ? 
@@ -208,25 +225,34 @@ const ProductDetails : React.FC = () =>{
                         <div className="details-info">
                             <h3>{product.name}</h3>
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                            <div className="storage-variant">
-                                <h4>Storage</h4>
-                                <div className="variant-layout">
-                                    <div className="varient-option">
-                                        <h3>$250</h3>
-                                        <p>128GB</p>
+                            <div className="variants">
+                                {product.storage.length>0 && 
+                                <div className="storage-variant">
+                                    <h4>Storage</h4>
+                                    <div className="variant-layout">
+                                        {product.storage.map(function(item,index){
+                                                return(
+                                                    <div className={selectedStorage === item.size ?"varient-option variant-selected"  : "varient-option" } onClick={()=>setSelectedStorage(item.size)}>
+                                                        <h3>$250</h3>
+                                                        <p>{item.size}GB</p>
+                                                    </div>
+                                                )
+                                        })}
+
                                     </div>
-                                    <div className="varient-option">
-                                        <h3>$250</h3>
-                                        <p>128GB</p>
-                                    </div>
-                                    <div className="varient-option">
-                                        <h3>$250</h3>
-                                        <p>128GB</p>
-                                    </div>
-                                    <div className="varient-option">
-                                        <h3>$250</h3>
-                                        <p>128GB</p>
-                                    </div>
+                                </div>
+                                }
+                            </div>
+                            <div className="color-varients">
+                                <h4>Colors</h4>
+                                <div className="colors">
+                                    {product.color.length>0 && product.color.map(function(item,index){
+                                        return(
+                                            <div className={ selectedColor ===item.color_code ? "color-box color-selected" : "color-box"} style={{backgroundColor:item.color_code}} onClick={()=>setSelectedColor(item.color_code)}> 
+
+                                            </div>
+                                        )
+                                    })}
                                 </div>
                             </div>
                             
