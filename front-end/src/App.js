@@ -16,6 +16,7 @@ import { Flip, ToastContainer, toast } from 'react-toastify';
 import ResetPasswordConfrimation from "./Pages/resetPassword.tsx"
 import ResetEmail from "./Pages/resetEmail.tsx"
 import Cart from "./Pages/cart.tsx"
+import Checkout from "./Pages/Checkout.tsx"
 function App() {
   const user = useSelector((state) => state.reducer.data)
   const loggedIn = () =>{
@@ -35,6 +36,7 @@ function App() {
         <Route path='/login' element={  <Login/>}/>
         <Route path='/search' element={<SearchProduct/>}/>
         <Route path='/cart' element={<Cart/>}/>
+        <Route path='/checkout' element={<Checkout/>}/>
         <Route path='/category/:id' element={<Category/>}/>
         <Route path='/profile/:id' element={<Profile/>}/>
         <Route path='product/:id' element={<ProductDetails/>}/>

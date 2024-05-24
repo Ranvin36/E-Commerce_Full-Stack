@@ -5,4 +5,6 @@ urlpatterns=[
     path('products/',cart.getcartproducts, name="Get-Product"),
     path('recommendation/',cart.Recommendation, name="cart-recommendation"),
     path('delete/<str:pk>',cart.removeFromCart, name="Remove-Product"),
+    path('checkout/<str:pk>', cart.createOrder,name="create-order"),
+    path('checkout/', cart.getOrders,name="get-orders")
 ]

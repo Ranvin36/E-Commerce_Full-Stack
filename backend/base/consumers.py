@@ -12,7 +12,7 @@ class Cart(AsyncWebsocketConsumer):
         pass
     async def receive(self,text_data):
         text_data_json = json.loads(text_data)
-        Cart =  await sync_to_async(Cart_Product.objects.filter)(user_id=text_data_json['message'])
+        Cart =  await sync_to_async(Cart.objects.filter)(user_id=text_data_json['message'])
         print(Cart , "CART")
         serializer = CartSerializer(Cart, many=True)
         await self.send(text_data=json.dumps({

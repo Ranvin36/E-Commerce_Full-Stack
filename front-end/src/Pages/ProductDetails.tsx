@@ -144,14 +144,26 @@ const ProductDetails : React.FC = () =>{
     }
 
     async function AddToCart(productId:number){
+        const data ={selectedColor,selectedStorage}
         try{
-            const response = await axios.post(`http://127.0.0.1:8000/api/cart/add/${productId}`,null,{
-                headers:{
-                    Authorization:  `Bearer ${user.token}`
-                }
-            })
-            console.log(response)
-            dispatch(cartProductsfetchSuccesful([response.data]))
+            if(product?.storage?.length ?? 0 > 0){
+                const response = await axios.post(`http://127.0.0.1:8000/api/cart/add/${productId}`, data,{
+                    headers:{
+                        Authorization:  `Bearer ${user.token}`
+                    }
+                })
+                dispatch(cartProductsfetchSuccesful([response.data]))
+            }
+            else{
+                const response = await axios.post(`http://127.0.0.1:8000/api/cart/add/${productId}`, null,{
+                    headers:{
+                        Authorization:  `Bearer ${user.token}`
+                    }
+                })
+                console.log(response)
+                dispatch(cartProductsfetchSuccesful([response.data]))
+            }
+
 
             toast.success("🤙 Added To Cart")
 
@@ -210,7 +222,7 @@ const ProductDetails : React.FC = () =>{
 
     })
 
-    console.log(selectedStorage)
+    console.log(cartReducer)
     return(
         <div className="details-container">
             {product ? 

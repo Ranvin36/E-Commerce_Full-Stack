@@ -13,7 +13,8 @@ interface ProductDetails{
     name:string,
     image:string,
     price:string,
-    reviews:ReviewDetails[]
+    reviews:ReviewDetails[],
+
 }
 interface ProductRecommendations{
     _id:number,
@@ -29,6 +30,8 @@ interface ReviewDetails{
 
 interface Product{
     product:ProductDetails,
+    selected_color:string,
+    selected_storage:string,
 }
 
 
@@ -119,6 +122,9 @@ const Cart : React.FC = () =>{
                                         <div className="cart-product-details">
                                             <h3>{item.product.name}</h3>
                                             <p>${item.product.price}</p>
+                                            {item.selected_color && item.selected_storage && 
+                                                <p style={{fontWeight:300}}>Storage : {item.selected_storage}GB Color:{item.selected_color}</p>
+                                            }
                                             <div className="rating-layout">
                                                 <p>4.7</p>
                                                 <div className="rating-starts">

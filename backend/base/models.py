@@ -42,13 +42,42 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
     
 class Cart_Product(models.Model):
     user= models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     product= models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
+    selected_color = models.CharField(max_length=100, null=True,blank=True)
+    selected_storage = models.CharField(max_length=100, null=True,blank=True)
     _id = models.AutoField(primary_key=True,editable=False)
     def __str__(self):
         return self.product.name
+    
+
+class Order(models.Model):
+    user = models.ForeignKey(User,on_delete=models.SET_NULL, null=True)
+    first_name  = models.CharField(max_length=100, null=False, blank=True)
+    last_name  = models.CharField(max_length=100, null=False, blank=True)
+    shipping_address = models.TextField(null=False,blank=False)
+    zip_code  = models.IntegerField(null=False, blank=False)
+    city  = models.CharField(max_length=100, null=False, blank=False)
+    payment_method  = models.CharField(max_length=100, null=False, blank=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    _id = models.AutoField(primary_key=True, editable=False)
+
+    def __str__(self):
+        return self.user.username + " - " + str(self._id)
+        
+class OrderItem(models.Model):
+    order = models.ForeignKey(Order,on_delete=models.SET_NULL, null=True)
+    product = models.ForeignKey(Product,on_delete=models.SET_NULL, null=True)
+    selected_color = models.CharField(max_length=100, null=True , blank=True)
+    selected_storage = models.CharField(max_length=100, null=True,blank=True)
+    _id = models.AutoField(primary_key=True, editable=False)
+
+    def __str__(self):
+        return  self.product.name + " - " + str(self._id)
+
     
 class Favourite(models.Model):
     user= models.ForeignKey(User, on_delete=models.SET_NULL, null=True)

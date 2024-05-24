@@ -120,7 +120,7 @@ const Product : React.FC<Productprops>= ({item}) =>{
                         <img src={`http://localhost:8000/${item.image}`} alt="" />
                     </div>
                     <div className="product-details">
-                        <h3>{item.name.length>=19 ? item.name.slice(0,19)+".." : item.name}</h3>
+                        <h3>{item.name && item.name.length>=19 ? item.name.slice(0,19)+".." : item.name}</h3>
                         <div className="rating-sold">
                             <FaStar color="#eff781"/>
                             <p>4.7</p>

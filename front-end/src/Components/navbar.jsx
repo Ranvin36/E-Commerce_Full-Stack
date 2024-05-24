@@ -198,7 +198,7 @@ function Navbar(){
                             
                             }
                             <div className="view-cart">
-                                <Link style={{color:"#fff", textDecoration:"none"}}>View Cart</Link>
+                                <Link style={{color:"#fff", textDecoration:"none"}} to='/cart'>View Cart</Link>
                             </div>
                         </div>
                     </div>
