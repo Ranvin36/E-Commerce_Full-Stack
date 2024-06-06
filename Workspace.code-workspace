@@ -8,7 +8,12 @@
 		},
 		{
 			"path": "../Chat-Client"
+		},
+		{
+			"path": "../Fleexy-Movie"
 		}
 	],
-	"settings": {}
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "Full-Stack_E-Commerce"
+	}
 }

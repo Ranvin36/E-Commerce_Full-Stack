@@ -232,7 +232,18 @@ const ProductDetails : React.FC = () =>{
                     <div className="details-layout">
                         
                         <div className="details-img">
-                            <img src={`http://localhost:8000${product.image}`} alt="" />
+                            <div className="main-image">
+                                <img src={`http://localhost:8000${product.image}`} alt="" />
+                            </div>
+
+                            <div className="sub-images">
+                                <div className="sub-image">
+                                    <img src={`http://localhost:8000${product.image}`} alt="product-varients" />
+                                </div>
+                                <div className="sub-image">
+                                    <img src={`http://localhost:8000${product.image}`} alt="product-varients" />
+                                </div>
+                            </div>
                         </div>
                         <div className="details-info">
                             <h3>{product.name}</h3>
@@ -255,18 +266,20 @@ const ProductDetails : React.FC = () =>{
                                 </div>
                                 }
                             </div>
-                            <div className="color-varients">
-                                <h4>Colors</h4>
-                                <div className="colors">
-                                    {product.color.length>0 && product.color.map(function(item,index){
-                                        return(
-                                            <div className={ selectedColor ===item.color_code ? "color-box color-selected" : "color-box"} style={{backgroundColor:item.color_code}} onClick={()=>setSelectedColor(item.color_code)}> 
+                            {product.color.length>0 &&                             
+                                <div className="color-varients">
+                                    <h4>Colors</h4>
+                                    <div className="colors">
+                                        {product.color.length>0 && product.color.map(function(item,index){
+                                            return(
+                                                <div className={ selectedColor ===item.color_code ? "color-box color-selected" : "color-box"} style={{backgroundColor:item.color_code}} onClick={()=>setSelectedColor(item.color_code)}> 
 
-                                            </div>
-                                        )
-                                    })}
+                                                </div>
+                                            )
+                                        })}
+                                    </div>
                                 </div>
-                            </div>
+                            }
                             
                             <h2>${product.price}</h2>
                             {filterProduct.length>0?  

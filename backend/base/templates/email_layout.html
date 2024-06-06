@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+        *{
+        margin: 0;
+        padding: 0;
+        font-family: 'poppins','sans-serif';
+        }
+
+        body{
+            background-color: #f2f2f2;
+
+        }
+        .container{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .container-layout{
+            background-color: #fff;
+            width: 800px;
+            border-radius: 5px;
+            padding: 15px 35px;
+        }
+        .container-title{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px 0;
+        }
+        .order-details{
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+        }
+
+        .order-img{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #e4dada ;
+            border-radius: 5px;
+            width: 100px;
+            height: 100px;
+        }
+        .order-img img{
+            width: 100px;
+        }
+        .order-texts{
+            margin-left: 20px;
+        }
+        .order-texts h5{
+            font-weight: 500;
+            font-size: 18px;
+        }
+        .price-fields{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .price-fields h3{
+            font-weight: 400;
+            font-size: 19px;
+        }
+        .price-fields p{
+            font-weight: 500;
+        }
+        .delivery h1 , .order h1 , .order-prices h1{
+            font-weight: 300;
+            font-size: 20px;
+            margin: 10px 0;
+        }
+        .delivery-details h3, .order-details h3{
+            font-weight: 400;
+        }
+
+    </style>
+</head>
+<body>
+   <div class="container">
+    <div class="container-layout">
+        <div class="container-title">
+            <h1>Fleexy</h1>
+        </div>
+        <hr>
+        <div class="delivery">
+            <h1>Delivery Details</h1>
+            <div class="delivery-details">
+                <h3>Name: {{ name }}</h3>
+                <h3>Address: {{ address }}</h3>
+                <h3>Email: {{ email }}</h3>
+            </div>
+        </div>
+        <hr>
+        <div class="order">
+            <h1>Order Details</h1>
+            {% for product in cart_product %}
+            <div class="order-details">
+                <div class="order-img">
+                    <img src="{{ img_url }}" alt="product-image">
+                </div>
+                <div class="order-texts">
+                    <h5>{{ product.product.name }}</h5>
+                    <h5>${{ product.product.price }}</h5>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <hr>
+        <div class="order-prices">
+            <h1>Pricing</h1>
+            <div class="price-fields">
+                <h3>Sub Total</h3>
+                <p>${{total_price}}</p>
+            </div>
+            <div class="price-fields">
+                <h3>Tax</h3>
+                <p>$2</p>
+            </div>
+            <div class="price-fields">
+                <h3>Order Total</h3>
+                <p>${{total_price}}</p>
+            </div>
+        </div>
+    </div>
+
+   </div>
+    
+</body>
+</html>

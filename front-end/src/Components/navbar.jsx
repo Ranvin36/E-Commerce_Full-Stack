@@ -25,6 +25,7 @@ function Navbar(){
     const[favouritesReveal, setfavouritesReveal] = useState(false)
     const[cartReducer, setCartReducer] = useState([])
     const[favouritesReducer, setFavouritesReducer] = useState([])
+    const[width, setWidth] = useState('')
     const selector = useSelector((state)=> state.reducer.data)
     const cartReducers = useSelector((state) => state.cartReducer.data)
     const favouritesReducers = useSelector((state) => state.favouritesReducer.data)
@@ -115,6 +116,18 @@ function Navbar(){
     }
 
     useEffect(()=>{
+        function AdjustWidth(){
+            setWidth(window.innerWidth)
+        }
+        window.addEventListener('resize',AdjustWidth)
+        return () =>{
+            window.removeEventListener('resize',AdjustWidth)
+        }
+    },[])
+
+    console.log(width)
+
+    useEffect(()=>{
         getProductInFavourites()
     },[favouritesReducers])
 
@@ -138,17 +151,23 @@ function Navbar(){
                 <li><Link className="link" to="/">Search</Link></li>
                 <li><Link className="link" to="/">Contact</Link></li>
             </ul> */}
-            <div className="search-bar">
+            <div className={!expand? "search-bar hide-icons" : "search-bar"}>
                     <input type="text" placeholder="Search A Product"  onChange={(e)=>searchContext.setSearch(e.target.value)} onKeyPress={(event)=>keyPress(event)}/>
                     <div className="search-bg">
                         <CiSearch onClick={Finding} />
                     </div>
             </div>
-            <div className="corner-icons">
-                <div className="user-profile" onClick={ProfileNavigate}>
+            <div className={!expand? "corner-icons hide-icons" : "corner-icons"}>
+                <div className="user-profile desk-nav-link" onClick={ProfileNavigate}>
                     <AiOutlineUser size={20}/>
                 </div>
-                <div className="favourites">
+                <div className="mobile-nav-link">
+                    <Link>Profile</Link>
+                </div>
+                <div className="mobile-nav-link">
+                    <Link>Favourites</Link>
+                </div>
+                <div className="favourites desk-nav-link">
                     <IoIosHeartEmpty size={20} onClick={()=>setfavouritesReveal((prev)=>!prev)}/>
                     <div className={favouritesReveal ? "cart-dropdown drop-down-visible" : "cart-dropdown"}>
                         <div className="cart-elements">
@@ -175,7 +194,10 @@ function Navbar(){
                         </div>
                     </div>
                 </div>
-                <div className="trending" onClick={(e)=> setCartReveal((prev)=>!prev)}>
+                <div className="mobile-nav-link">
+                    <Link>Cart</Link>
+                </div>
+                <div className="trending desk-nav-link" onClick={(e)=> setCartReveal((prev)=>!prev)}>
                     <CiShoppingCart size={22}/>
                     <div className={cartReveal ? "cart-dropdown drop-down-visible" : "cart-dropdown"}>
                         <div className="cart-elements">
@@ -194,8 +216,6 @@ function Navbar(){
                                 )
                             }) :
                                 <p>Cart Is Empty</p>
-
-                            
                             }
                             <div className="view-cart">
                                 <Link style={{color:"#fff", textDecoration:"none"}} to='/cart'>View Cart</Link>
@@ -203,7 +223,7 @@ function Navbar(){
                         </div>
                     </div>
                 </div>
-                <div className="cart-btn nav-cart" style={{display:expand?"block" : null}}>
+                <div className="cart-btn nav-cart desk-nav-link">
                     <Link className="link" to="/">{selector.username ? selector.username : "Login"}</Link>
                 </div>
             </div>

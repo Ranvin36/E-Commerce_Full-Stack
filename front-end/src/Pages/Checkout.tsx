@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react"
 import InputFields from "../Components/InputFields"
 import LongFields from "../Components/LongInput"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import axios from "axios"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { types } from "../redux/types"
-
+import { toast } from "react-toastify"
+import { clearCart, removeProductFromCart } from "../redux/cartReducer"
+import { Button } from "@mui/material"
+import PreLoader from "./PreLoader"
 interface ProductDetails{
     _id:number,
     price:string,
@@ -29,7 +32,10 @@ const Checkout : React.FC = () =>{
     const [address, setAddress] = useState("")
     const [zipCode, setZipCode] = useState("")
     const [city, setCity] = useState("")
-    const [orderDetails,setOrderDetails]  = useState([])
+    const [orderPlaced, setOrderPlaced] = useState(false)
+    const [orderDetails,setOrderDetails]  = useState<OrderDetails[]>([])
+    const Navigate = useNavigate()
+    const dispatch = useDispatch()
     const user = useSelector((state:types) => state.reducer.data)
     let totalPrice = 0;
     async function fetchOrderItems(){
@@ -41,25 +47,39 @@ const Checkout : React.FC = () =>{
         setOrderDetails(response.data)
     }
 
-    async function createOrder(){
-        const data =  {first_name:firstName, last_name:lastName, shipping_address:address , zip_code:zipCode , city:city , payment_method:"cash-in-hand"}
-        const response  =await axios.post("http://127.0.0.1:8000/api/cart/checkout/9", data , {
-            headers:{
-                Authorization: `Bearer ${user.token}`
-            }
-        })
+    async function createOrder(e:React.MouseEvent<HTMLButtonElement>){
+        console.log("inside")
+        e.preventDefault()
+        if (firstName.length>0 && lastName.length>0 && address.length>0 &&zipCode.length>0 && city.length>0){
+            setOrderPlaced(true)
+            const data =  {first_name:firstName, last_name:lastName, shipping_address:address , zip_code:zipCode , city:city , payment_method:"cash-in-hand"}
+            const response  =await axios.post("http://127.0.0.1:8000/api/cart/checkout/9", data , {
+                headers:{
+                    Authorization: `Bearer ${user.token}`
+                }
+            })
+            console.log(response.data)
 
-        console.log(response.data)
+            dispatch(clearCart())
+            Navigate('/')
+        }
+        else{
+            toast.error("All Fields Are Required!")
+
+        }
     }
 
     useEffect(() =>{
         fetchOrderItems()
     },[])
-    console.log(orderDetails)
 
+    return(   
+        <>     
+            {orderPlaced ? 
+                <PreLoader message="Order Placed Successfully - Receipt Emailed"/>
+                :
 
-
-    return(
+            
         <div className="checkout-container">
             <div className="checkout-flex">
                 <div className="checkout-structure">
@@ -75,13 +95,17 @@ const Checkout : React.FC = () =>{
                         <InputFields title="ZIP Code" type="text" onChange={setZipCode} />
                         <InputFields title="City" type="text" onChange={setCity} />
                     </div>
+                        <div className="payment-title">
+                            <h2>PAYMENT METHOD</h2>
+                        </div>
                     <div className="payment-options">
                         <div className="payment-option">
                             <input type="radio" name="" id="" />
                             <label htmlFor="">Cash In Hand</label>
                         </div>
                     </div>
-                    <div className="other-items">
+                    <hr />
+                    <div className="order-items">
                         <div className="checkout-title">
                             <h2>Order Details</h2>
                         </div>
@@ -134,13 +158,16 @@ const Checkout : React.FC = () =>{
                                 <h4>${totalPrice + 2.5}</h4>
                             </div>
                             <div className="complete-checkout">
-                                <Link to='' style={{textDecoration:"none",color:"#fff"}} onClick={createOrder}>Complete Checkout</Link>
+                                <Button type='button' style={{textDecoration:"none",color:"#fff"}} onClick={(e)=>createOrder(e)}>Complete Checkout</Button>
                             </div>
 
                         </div>
                 </div>
             </div>
         </div>
+        }
+        </>
+
     )
 }
 

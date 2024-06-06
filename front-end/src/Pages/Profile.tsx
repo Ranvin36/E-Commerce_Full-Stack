@@ -85,7 +85,9 @@ const Profile : React.FC = () =>{
                         })
 
                         :
-                            <h1>Empty</h1>
+                        <div className="profile-empty">
+                            <h1>No Favourotes Found</h1>
+                        </div>
                         }
                     </div>
                     <div className="orders activities-section">
@@ -129,7 +131,9 @@ const Profile : React.FC = () =>{
                         })
 
                         :
-                            <h1>Empty</h1>
+                            <div className="profile-empty">
+                                <h1>No Orders Placed</h1>
+                            </div>
                         }
 
 

@@ -107,6 +107,7 @@ const Product : React.FC<Productprops>= ({item}) =>{
     const filterProduct = favouritesReducer.filter((favourite) => favourite.product._id === item._id);
     const cartFilter = cartReducer.filter((cart)=> cart.product._id === item._id);
     return(
+        <div className="product-align">
         <div className="product-layout">
              <div className="favourites-container" onClick={()=> filterProduct.length>0  ? removeFromfavourites(item._id) : AddToFavourites(item._id)}>
                 {filterProduct.length>0 ? 
@@ -134,6 +135,7 @@ const Product : React.FC<Productprops>= ({item}) =>{
                 <TbShoppingBagPlus  size={23} className="product-cart-icon" color={cartFilter.length>0 ? "#FF5B76" :"#fff"} />
             </div>
         </div>
+    </div>
     )
 }
 

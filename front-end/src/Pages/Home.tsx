@@ -75,7 +75,7 @@ const Home : React.FC = () =>{
                         Get Your <span>{" "}</span>
                         <ReactTyped strings={["Electronics","Clothes","Toys"]} typeSpeed={100} loop/>
                     </h3> */}
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation</p>
+                    <p>Uncover the Transformative Power of Modern Technology in Your Everyday Life, and Master the Art of Integrating the Latest Gadgets to Enhance Your Productivity, Entertainment, and Overall Well-being</p>
                     <div className="header-button">
                     <div className="blur" style={{top:500, left:0}}></div>          
                         <div className="button-elements">

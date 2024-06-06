@@ -39,6 +39,7 @@ const Cart : React.FC = () =>{
     const user = useSelector((state:types) => state.reducer.data)
     const [cart,setCart] = useState([])
     const [recommendations,setRecommendations] = useState([])
+    const [width, setWidth] = useState<number>(0)
     let recommendNames = ""; 
     const cartLength = cart.length
     let totalPrice:number = 10;
@@ -91,6 +92,15 @@ const Cart : React.FC = () =>{
         recommendProducts()
     },[recommendNames])
 
+    useEffect(()=>{
+        function handleInnerWidth(){
+            setWidth(window.innerWidth)
+        }
+        window.addEventListener('resize',handleInnerWidth)
+        return () =>{
+            window.removeEventListener('resize',handleInnerWidth)
+        }
+    },[])
 
     function handlePrevSlide(){
         swiperRef?.current?.swiper?.slidePrev()
@@ -99,6 +109,8 @@ const Cart : React.FC = () =>{
     function handleNextSlide(){
         swiperRef?.current?.swiper?.slideNext()
     }
+
+    console.log(width)
 
     return(
         <div className="cart-container">
@@ -157,7 +169,7 @@ const Cart : React.FC = () =>{
                                 <h4>${totalPrice}</h4>
                             </div>
                             <div className="checkout-btn">
-                                <p>Checkout</p>
+                                <Link to='/checkout' style={{textDecoration:"none",color:"#fff"}}>Checkout</Link>
                             </div>
                         </div>
                     </div>
@@ -177,7 +189,7 @@ const Cart : React.FC = () =>{
                     <div className="recommendation-swiper">
                         <Swiper
                             ref={swiperRef}
-                            slidesPerView={4}
+                            slidesPerView={width<600 ? 1 : width<1000 ? 2 : width < 1400 ? 3 : 4}
                             spaceBetween={10}
                         >
                             {recommendations && recommendations.map(function(item:ProductRecommendations,index){
